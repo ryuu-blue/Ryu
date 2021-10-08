@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/miDev"
+        android:title="Dev"
+        android:icon="@drawable/ic_dev"
+        android:orderInCategory="100"
+        />
+
+    <item android:id="@+id/miHome"
+        android:title="Main"
+        android:icon="@drawable/ic_home"
+        android:orderInCategory="100"
+        />
+
+    <item android:id="@+id/miSearch"
+        android:title="Search"
+        android:icon="@drawable/ic_search"
+        android:orderInCategory="100"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/miProfile"
+        android:title="Profile"
+        android:icon="@drawable/ic_profile"
+        android:orderInCategory="100"
+        app:showAsAction="never"/>
+
+</menu>
