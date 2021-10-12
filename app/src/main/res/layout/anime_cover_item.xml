@@ -5,8 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:clickable="true"
     android:focusable="true"
-    android:layout_margin="5dp"
-    android:foreground="?attr/selectableItemBackgroundBorderless">
+    android:layout_margin="5dp">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/CVanimecard"
@@ -15,20 +14,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:elevation="10dp"
-        app:cardCornerRadius="15dp"
+        app:cardCornerRadius="10dp"
         >
 
         <ImageView
             android:id="@+id/IVanimeCover"
             android:layout_width="wrap_content"
-            android:layout_height="175dp"
+            android:layout_height="165dp"
             android:scaleType="fitStart"
             app:shapeAppearanceOverlay="@style/roundedImageView"
             android:src="@drawable/cover_loader_image"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:adjustViewBounds="true"
-            />
+            android:contentDescription="Anime Cover" />
 
     </androidx.cardview.widget.CardView>
 
@@ -43,7 +42,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:textColor="@color/white"
-        android:textSize="18dp"
+        android:textSize="16sp"
+        android:textAlignment="center"
         android:padding="10dp"
         />
 

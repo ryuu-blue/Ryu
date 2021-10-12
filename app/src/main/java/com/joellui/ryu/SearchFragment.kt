@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -13,9 +14,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.joellui.ryu.adapter.CoverData
 import com.joellui.ryu.adapter.GridAdapter
 import com.joellui.ryu.repositry.Repository
-import kotlinx.android.synthetic.main.fragment_search.*
 
-class SearchFragment : Fragment() {
+class SearchFragment : Fragment(),GridAdapter.OnClickListener{
 
     private lateinit var viewModel: MainViewModel
 
@@ -31,11 +31,11 @@ class SearchFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val mainLayout = inflater.inflate(R.layout.fragment_search,container,false);
-        val stage = mainLayout.findViewById<RecyclerView>(R.id.stage_rv);
-
+        val mainLayout = inflater.inflate(R.layout.fragment_search,container,false)
+        val stage = mainLayout.findViewById<RecyclerView>(R.id.stage_rv)
         val repository = Repository()
         val viewModelFactory = MainViewModelFactory(repository)
+
 
         viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
         viewModel.myResponse.observe(viewLifecycleOwner, Observer { response ->
@@ -47,12 +47,13 @@ class SearchFragment : Fragment() {
 //                    Log.d("Response", response.body()?.data?.cover_image.toString())
 
 
-                val adapter = GridAdapter(cover)
+                val adapter = GridAdapter(cover,this)
 
                 cover.add(
                     CoverData(
                         response.body()?.data?.titles?.en.toString(),
-                        response.body()?.data?.cover_image.toString()
+                        response.body()?.data?.cover_image.toString(),
+                        response.body()?.data?.id.toString()
                     )
                 )
 
@@ -72,23 +73,15 @@ class SearchFragment : Fragment() {
         Log.d("Response", cover.toString())
 
 
-        val adapter = GridAdapter(cover)
+        val adapter = GridAdapter(cover,this)
         stage.adapter = adapter
-        stage.layoutManager = GridLayoutManager(activity, 3);
+        stage.layoutManager = GridLayoutManager(activity, 3)
 
         return mainLayout
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-//
-//        stage_rv.adapter = adapter
-//        stage_rv.layoutManager = GridLayoutManager(activity,3)
-
-
+    //response to recyclerview onclick
+    override fun onClick(position: Int) {
+        Toast.makeText(context, ""+cover[position].id, Toast.LENGTH_SHORT).show()
     }
-
-
-
 }
