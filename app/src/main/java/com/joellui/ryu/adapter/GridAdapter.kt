@@ -4,8 +4,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
+import coil.transform.RoundedCornersTransformation
 import com.joellui.ryu.R
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.anime_cover_item.view.*
 
 class GridAdapter(
@@ -38,8 +39,12 @@ class GridAdapter(
         holder.itemView.apply {
             TVtitle.text = covers[position].title
 
-            Picasso.with(this.context).load(covers[position].img).placeholder(R.drawable.cover_loader_image).fit().into(IVanimeCover)
-
+            IVanimeCover.load(covers[position].img){
+                crossfade(true)
+                crossfade(1000)
+                size(500,750)
+                transformations(RoundedCornersTransformation(30f))
+            }
 
         }
     }

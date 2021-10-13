@@ -1,5 +1,6 @@
 package com.joellui.ryu
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -18,8 +19,6 @@ import com.joellui.ryu.repositry.Repository
 class SearchFragment : Fragment(),GridAdapter.OnClickListener{
 
     private lateinit var viewModel: MainViewModel
-
-
 
     var cover = mutableListOf<CoverData>(
 //        CoverData("One Piece", "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/nx21-tXMN3Y20PIL9.jpg"),
@@ -83,5 +82,12 @@ class SearchFragment : Fragment(),GridAdapter.OnClickListener{
     //response to recyclerview onclick
     override fun onClick(position: Int) {
         Toast.makeText(context, ""+cover[position].id, Toast.LENGTH_SHORT).show()
+
+        val intent = Intent(context,AnimeDetailsActivity::class.java)
+        intent.putExtra("id",cover[position].id)
+        intent.putExtra("title",cover[position].title)
+        intent.putExtra("image",cover[position].img)
+        startActivity(intent)
     }
+
 }
