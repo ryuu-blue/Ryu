@@ -39,12 +39,8 @@ class SearchFragment : Fragment(),GridAdapter.OnClickListener{
         viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
         viewModel.myResponse.observe(viewLifecycleOwner, Observer { response ->
             if (response.isSuccessful) {
-//                    Log.d("Response", response.body()?.status_code.toString())
-//                    Log.d("Response", response.body()?.message!!)
-//                    Log.d("Response",response.body()?.data?.id.toString())
-                Log.d("Response", response.body()?.data?.titles?.en.toString())
-//                    Log.d("Response", response.body()?.data?.cover_image.toString())
 
+                Log.d("Response", response.body()?.data?.titles?.en.toString())
 
                 val adapter = GridAdapter(cover,this)
 

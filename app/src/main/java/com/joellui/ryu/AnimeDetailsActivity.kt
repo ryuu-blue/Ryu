@@ -1,19 +1,17 @@
 package com.joellui.ryu
 
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.AlarmClock.EXTRA_MESSAGE
 import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import coil.load
-import coil.size.Scale
-import coil.size.Size
+import coil.transform.BlurTransformation
 import coil.transform.RoundedCornersTransformation
 import com.joellui.ryu.repositry.Repository
-import kotlinx.android.synthetic.main.activity_anime_details.*
 
 class AnimeDetailsActivity : AppCompatActivity() {
 
@@ -25,6 +23,7 @@ class AnimeDetailsActivity : AppCompatActivity() {
 
         val cover : ImageView = findViewById(R.id.IVanimeCover)
         val title : TextView = findViewById(R.id.TVtitle)
+        val japaneseTitle : TextView = findViewById(R.id.japaneseTitle)
         val bundle : Bundle?= intent.extras
 
         val heading = bundle!!.getString("title")
@@ -37,7 +36,7 @@ class AnimeDetailsActivity : AppCompatActivity() {
             crossfade(true)
             crossfade(1000)
             size(500,750)
-            transformations(RoundedCornersTransformation(30f))
+            transformations(BlurTransformation(applicationContext))
         }
 
         //api
@@ -48,12 +47,21 @@ class AnimeDetailsActivity : AppCompatActivity() {
             if (response.isSuccessful){
 
                 val getBanner = response.body()?.data?.banner_image
+                val jpTitle = response.body()?.data?.titles?.jp
+                val color = response.body()?.data?.cover_color
+                val description = response.body()?.data?.descriptions
+
+                japaneseTitle.text = jpTitle
+                japaneseTitle.setTextColor(Color.parseColor(color))
+
+
 
             }else{
                 Log.d("Response", response.errorBody().toString())
 
             }
         })
+
         viewModel.getPost(id!!.toInt())
     }
 }
