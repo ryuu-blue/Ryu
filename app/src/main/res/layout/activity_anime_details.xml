@@ -32,7 +32,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:background="@drawable/gradient_black" />
+
         </FrameLayout>
+
+        <ImageButton
+            android:id="@+id/btnPlay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#00000000"
+            android:src="@drawable/ic_play"
+            app:layout_constraintBottom_toTopOf="@+id/TVtitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/FLimageFrame" />
 
         <TextView
             android:id="@+id/TVtitle"
@@ -54,19 +66,6 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_begin="460dp" />
-
-        <TextView
-            android:id="@+id/japaneseTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:letterSpacing=".3"
-            android:gravity="end"
-            android:textStyle="bold"
-            android:textSize="40sp"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

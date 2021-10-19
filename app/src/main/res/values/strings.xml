@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Ryu</string>
+    <string name="title_activity_video">VideoActivity</string>
 </resources>

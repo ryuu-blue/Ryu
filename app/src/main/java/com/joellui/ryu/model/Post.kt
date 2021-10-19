@@ -4,10 +4,10 @@ package com.joellui.ryu.model
 data class Post(
     val status_code: Int,
     val message: String,
-    var data: Data
+    var data: AnimeData
 )
 
-data class Data(
+data class AnimeData(
     val anilist_id:Int,
     val id: Int,
     val format: Int,

@@ -1,9 +1,12 @@
 package com.joellui.ryu
 
+import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.Observer
@@ -23,8 +26,8 @@ class AnimeDetailsActivity : AppCompatActivity() {
 
         val cover : ImageView = findViewById(R.id.IVanimeCover)
         val title : TextView = findViewById(R.id.TVtitle)
-        val japaneseTitle : TextView = findViewById(R.id.japaneseTitle)
         val bundle : Bundle?= intent.extras
+        val btnPlay: ImageButton = findViewById(R.id.btnPlay)
 
         val heading = bundle!!.getString("title")
         val image = bundle.getString("image")
@@ -36,7 +39,6 @@ class AnimeDetailsActivity : AppCompatActivity() {
             crossfade(true)
             crossfade(1000)
             size(500,750)
-            transformations(BlurTransformation(applicationContext))
         }
 
         //api
@@ -51,10 +53,13 @@ class AnimeDetailsActivity : AppCompatActivity() {
                 val color = response.body()?.data?.cover_color
                 val description = response.body()?.data?.descriptions
 
-                japaneseTitle.text = jpTitle
-                japaneseTitle.setTextColor(Color.parseColor(color))
 
-
+                btnPlay.setOnClickListener {
+                    val intent = Intent(this,VideoActivity::class.java)
+                    intent.putExtra("id",id)
+                    intent.putExtra("banner",getBanner)
+                    startActivity(intent)
+                }
 
             }else{
                 Log.d("Response", response.errorBody().toString())

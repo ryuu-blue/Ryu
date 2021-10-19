@@ -40,8 +40,6 @@ class SearchFragment : Fragment(),GridAdapter.OnClickListener{
         viewModel.myResponse.observe(viewLifecycleOwner, Observer { response ->
             if (response.isSuccessful) {
 
-                Log.d("Response", response.body()?.data?.titles?.en.toString())
-
                 val adapter = GridAdapter(cover,this)
 
                 cover.add(
