@@ -1,7 +1,7 @@
 package com.joellui.ryu.model
 
 
-data class Post(
+data class AnimePost(
     val status_code: Int,
     val message: String,
     var data: AnimeData

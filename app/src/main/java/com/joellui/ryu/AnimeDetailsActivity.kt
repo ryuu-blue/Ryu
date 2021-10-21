@@ -14,7 +14,13 @@ import androidx.lifecycle.ViewModelProvider
 import coil.load
 import coil.transform.BlurTransformation
 import coil.transform.RoundedCornersTransformation
+import com.google.gson.JsonObject
+import com.google.gson.JsonParser
 import com.joellui.ryu.repositry.Repository
+import okhttp3.Interceptor
+import okhttp3.Request
+import okhttp3.Response
+import java.io.IOException
 
 class AnimeDetailsActivity : AppCompatActivity() {
 
@@ -67,6 +73,9 @@ class AnimeDetailsActivity : AppCompatActivity() {
             }
         })
 
+
         viewModel.getPost(id!!.toInt())
     }
+
+
 }

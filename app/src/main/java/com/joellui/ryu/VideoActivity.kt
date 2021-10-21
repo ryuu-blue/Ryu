@@ -32,6 +32,7 @@ class VideoActivity : AppCompatActivity() {
         val viewModelFactory = MainViewModelFactory(repo)
         viewModel = ViewModelProvider(this,viewModelFactory).get(MainViewModel::class.java)
         viewModel.episodeResponse.observe(this, Observer { response ->
+
             if (response.isSuccessful){
 
                 Log.d("Response",response.body()?.message.toString())
@@ -40,9 +41,24 @@ class VideoActivity : AppCompatActivity() {
 
 
             }else{
-                Log.d("Response", response.errorBody().toString())
-            }
+                Log.d("Response--$",response.code().toString())
+                Log.d("Response--$",response.toString())
 
+                when(response.code()){
+                    404 ->
+                        setDev.text = response.message()
+                    500 ->
+                        setDev.text = response.body()?.message.toString()
+                    429 ->
+                        setDev.text = response.body()?.message.toString()
+                    400 ->
+                        setDev.text = response.body()?.message.toString()
+                    401 ->
+                        setDev.text = response.body()?.message.toString()
+                    403 ->
+                        setDev.text = response.body()?.message.toString()
+                }
+            }
         })
 
         viewModel.getEpisode(id!!.toInt())

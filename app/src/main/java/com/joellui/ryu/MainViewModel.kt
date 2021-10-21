@@ -4,14 +4,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.joellui.ryu.model.EpisodePost
-import com.joellui.ryu.model.Post
+import com.joellui.ryu.model.AnimePost
 import com.joellui.ryu.repositry.Repository
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
 class MainViewModel(private val repository: Repository): ViewModel() {
 
-    val myResponse: MutableLiveData<Response<Post>> = MutableLiveData()
+    val myResponse: MutableLiveData<Response<AnimePost>> = MutableLiveData()
     val episodeResponse: MutableLiveData<Response<EpisodePost>> = MutableLiveData()
 
     fun getPost(number: Int){

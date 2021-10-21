@@ -3,13 +3,14 @@ package com.joellui.ryu.model
 data class EpisodePost(
     val status_code: Int,
     val message: String,
-    var data: EpisodeData
+    val data: EpisodeData
 )
 
 data class EpisodeData(
     val current_page: Int,
     val count: Int,
-    val documents: List<EpisodeDocument>
+    val documents: List<EpisodeDocument>,
+    val last_page: Int
 )
 
 data class EpisodeDocument(

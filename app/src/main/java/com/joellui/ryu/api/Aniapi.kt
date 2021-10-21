@@ -1,7 +1,7 @@
 package com.joellui.ryu.api
 
 import com.joellui.ryu.model.EpisodePost
-import com.joellui.ryu.model.Post
+import com.joellui.ryu.model.AnimePost
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -12,7 +12,8 @@ interface Aniapi {
     @GET("/v1/anime/{id}")
     suspend fun getPost(
         @Path("id") number: Int
-    ): Response<Post>
+    ): Response<AnimePost>
+
 
     @GET("/v1/episode")
     suspend fun getEpisode(
@@ -20,4 +21,5 @@ interface Aniapi {
         @Query("source") src: String = "gogoanime",
         @Query("locale") local: String = "en"
     ): Response<EpisodePost>
+
 }
