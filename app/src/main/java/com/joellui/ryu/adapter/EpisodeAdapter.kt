@@ -10,13 +10,30 @@ import com.joellui.ryu.model.EpisodeDocument
 
 
 class EpisodeAdapter(
-    var episode: List<EpisodeDocument>
+    var episode: List<EpisodeDocument>,
+    var listener: OnClickListener
 ) : RecyclerView.Adapter<EpisodeAdapter.EpisodeViewHolder>() {
-    inner class EpisodeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+
+    inner class EpisodeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
+        View.OnClickListener{
+            init {
+                itemView.setOnClickListener(
+                    this
+                )
+            }
+
+        override fun onClick(v: View?) {
+            val position = adapterPosition
+            if (position != RecyclerView.NO_POSITION){
+                listener.OnClick(position)
+            }
+        }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EpisodeViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.ep_btn_item, parent, false)
         return EpisodeViewHolder(view)
+
     }
 
     override fun onBindViewHolder(holder: EpisodeViewHolder, position: Int) {
@@ -29,5 +46,9 @@ class EpisodeAdapter(
 
     override fun getItemCount(): Int {
         return episode.size
+    }
+
+    interface OnClickListener{
+        fun OnClick(position: Int)
     }
 }

@@ -2,6 +2,7 @@ package com.joellui.ryu.api
 
 import com.joellui.ryu.model.EpisodePost
 import com.joellui.ryu.model.AnimePost
+import com.joellui.ryu.model.RandomAnimePost
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -22,5 +23,10 @@ interface Aniapi {
         @Query("locale") locale: String = "en",
         @Query("page") current_page: Int = 1
     ): Response<EpisodePost>
+
+    @GET("/v1/random/anime/{count}")
+    suspend fun getRandomAnime(
+        @Path("count") number: Int = 9
+    ): Response<RandomAnimePost>
 
 }

@@ -16,9 +16,10 @@ import com.joellui.ryu.adapter.EpisodeAdapter
 import com.joellui.ryu.model.EpisodeDocument
 import com.joellui.ryu.repositry.Repository
 import android.content.SharedPreferences
+import java.text.FieldPosition
 
 
-class VideoActivity : AppCompatActivity() {
+class VideoActivity : AppCompatActivity(), EpisodeAdapter.OnClickListener {
 
     private lateinit var viewModel: MainViewModel
 
@@ -49,7 +50,7 @@ class VideoActivity : AppCompatActivity() {
 
                 episode = response.body()?.data!!.documents
 
-                val adapter = EpisodeAdapter(episode)
+                val adapter = EpisodeAdapter(episode,this)
                 stage.adapter = adapter
                 stage.layoutManager = GridLayoutManager(this@VideoActivity, 5)
 
@@ -154,5 +155,10 @@ class VideoActivity : AppCompatActivity() {
         list.add("Part $element")
         return list.toTypedArray()
     }
+
+    override fun OnClick(position: Int) {
+        Toast.makeText(this, "episode -> "+episode[position].number, Toast.LENGTH_SHORT).show()
+    }
+
 
 }
