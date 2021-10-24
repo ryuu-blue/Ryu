@@ -15,10 +15,10 @@ data class EpisodeData(
 
 data class EpisodeDocument(
     val anime_id: Int,
-    val number:Int,
-    val title:String,
-    val video:String,
-    val source:String,
+    val number: Int,
+    val title: String,
+    val video: String,
+    val source: String,
     val locale: String,
     val id: Int
 )

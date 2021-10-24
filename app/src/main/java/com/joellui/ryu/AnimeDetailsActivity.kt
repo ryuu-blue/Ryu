@@ -30,9 +30,9 @@ class AnimeDetailsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_anime_details)
 
-        val cover : ImageView = findViewById(R.id.IVanimeCover)
-        val title : TextView = findViewById(R.id.TVtitle)
-        val bundle : Bundle?= intent.extras
+        val cover: ImageView = findViewById(R.id.IVanimeCover)
+        val title: TextView = findViewById(R.id.TVtitle)
+        val bundle: Bundle? = intent.extras
         val btnPlay: ImageButton = findViewById(R.id.btnPlay)
 
         val heading = bundle!!.getString("title")
@@ -41,10 +41,10 @@ class AnimeDetailsActivity : AppCompatActivity() {
 
 
         title.text = heading
-        cover.load(image){
+        cover.load(image) {
             crossfade(true)
             crossfade(1000)
-            size(500,750)
+            size(500, 750)
         }
 
         //api
@@ -52,7 +52,7 @@ class AnimeDetailsActivity : AppCompatActivity() {
         val viewModelFactory = MainViewModelFactory(repository)
         viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
         viewModel.myResponse.observe(this, Observer { response ->
-            if (response.isSuccessful){
+            if (response.isSuccessful) {
 
                 val getBanner = response.body()?.data?.banner_image
                 val jpTitle = response.body()?.data?.titles?.jp
@@ -61,13 +61,13 @@ class AnimeDetailsActivity : AppCompatActivity() {
 
 
                 btnPlay.setOnClickListener {
-                    val intent = Intent(this,VideoActivity::class.java)
-                    intent.putExtra("id",id)
-                    intent.putExtra("banner",getBanner)
+                    val intent = Intent(this, VideoActivity::class.java)
+                    intent.putExtra("id", id)
+                    intent.putExtra("banner", getBanner)
                     startActivity(intent)
                 }
 
-            }else{
+            } else {
                 Log.d("Response", response.errorBody().toString())
 
             }

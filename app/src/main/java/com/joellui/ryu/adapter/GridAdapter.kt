@@ -14,14 +14,15 @@ class GridAdapter(
     val listener: OnClickListener
 ) : RecyclerView.Adapter<GridAdapter.CoverViewHolder>() {
 
-    inner class CoverViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),View.OnClickListener
-    {
+    inner class CoverViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
+        View.OnClickListener {
         init {
 
             itemView.setOnClickListener(
                 this
             )
         }
+
         override fun onClick(v: View?) {
             val position = adapterPosition
             if (position != RecyclerView.NO_POSITION) {
@@ -31,7 +32,8 @@ class GridAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CoverViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.anime_cover_item, parent, false)
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.anime_cover_item, parent, false)
         return CoverViewHolder(view)
     }
 
@@ -39,10 +41,10 @@ class GridAdapter(
         holder.itemView.apply {
             TVtitle.text = covers[position].title
 
-            IVanimeCover.load(covers[position].img){
+            IVanimeCover.load(covers[position].img) {
                 crossfade(true)
                 crossfade(1000)
-                size(500,750)
+                size(500, 750)
                 transformations(RoundedCornersTransformation(30f))
             }
 
@@ -53,7 +55,7 @@ class GridAdapter(
         return covers.size
     }
 
-    interface OnClickListener{
+    interface OnClickListener {
         fun onClick(position: Int)
     }
 

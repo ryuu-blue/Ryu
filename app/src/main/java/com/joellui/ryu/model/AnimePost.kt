@@ -8,7 +8,7 @@ data class AnimePost(
 )
 
 data class AnimeData(
-    val anilist_id:Int,
+    val anilist_id: Int,
     val id: Int,
     val format: Int,
     val score: Int,

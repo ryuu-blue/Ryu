@@ -9,12 +9,12 @@ import com.joellui.ryu.repositry.Repository
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
-class MainViewModel(private val repository: Repository): ViewModel() {
+class MainViewModel(private val repository: Repository) : ViewModel() {
 
     val myResponse: MutableLiveData<Response<AnimePost>> = MutableLiveData()
     val episodeResponse: MutableLiveData<Response<EpisodePost>> = MutableLiveData()
 
-    fun getPost(number: Int){
+    fun getPost(number: Int) {
         viewModelScope.launch {
             val response = repository.getPost(number)
             myResponse.value = response
@@ -22,9 +22,14 @@ class MainViewModel(private val repository: Repository): ViewModel() {
         }
     }
 
-    fun getEpisode(number: Int){
+    fun getEpisode(
+        number: Int,
+        src: String = "gogoanime",
+        local: String = "en",
+        current_page: Int = 1
+    ) {
         viewModelScope.launch {
-            val response = repository.getEpisode(number)
+            val response = repository.getEpisode(number, src, local, current_page)
             episodeResponse.value = response
         }
     }

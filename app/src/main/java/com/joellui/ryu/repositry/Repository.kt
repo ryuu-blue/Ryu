@@ -10,7 +10,12 @@ class Repository {
         return RetrofitInstance.api.getPost(number)
     }
 
-    suspend fun getEpisode(number: Int):Response<EpisodePost> {
-        return  RetrofitInstance.api.getEpisode(number)
+    suspend fun getEpisode(
+        number: Int,
+        src: String = "gogoanime",
+        local: String,
+        current_page: Int
+    ): Response<EpisodePost> {
+        return RetrofitInstance.api.getEpisode(number, src, local, current_page)
     }
 }

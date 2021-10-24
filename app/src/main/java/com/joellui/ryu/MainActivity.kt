@@ -22,23 +22,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-//        val repository = Repository()
-//        val viewModelFactory =  MainViewModelFactory(repository)
-//        viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
-//        viewModel.getPost(11)
-//        viewModel.myResponse.observe(this, Observer { response ->
-//            if(response.isSuccessful){
-//                Log.d("Response", response.body()?.status_code.toString())
-//                Log.d("Response", response.body()?.message!!)
-//                Log.d("Response", response.body()?.data?.titles?.en.toString())
-//                Log.d("Response", response.body()?.data?.cover_image.toString())
-//
-//            }else{
-//                Log.d("Response",response.errorBody().toString())
-//            }
-//        })
-
-
 
         val mf = MainFragment()
         val df = DevFragment()
@@ -49,14 +32,14 @@ class MainActivity : AppCompatActivity() {
             commit()
         }
 
-
+        //changing fragments form one on selecting
         btnNavigation.selectedItemId = R.id.miHome
         btnNavigation.setOnNavigationItemSelectedListener { item ->
-            when(item.itemId){
+            when (item.itemId) {
                 R.id.miDev -> {
 
                     supportFragmentManager.beginTransaction().apply {
-                        replace(R.id.Flfragment,df)
+                        replace(R.id.Flfragment, df)
                         commit()
                     }
 
@@ -72,7 +55,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.miSearch -> {
 
                     supportFragmentManager.beginTransaction().apply {
-                        replace(R.id.Flfragment,sf)
+                        replace(R.id.Flfragment, sf)
                         commit()
                     }
                     true
@@ -82,7 +65,7 @@ class MainActivity : AppCompatActivity() {
 
                     //TODO: This is Yet to be made
 
-                    Toast.makeText(applicationContext,"Profile",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(applicationContext, "Profile", Toast.LENGTH_SHORT).show();
                     true
                 }
                 else -> false
