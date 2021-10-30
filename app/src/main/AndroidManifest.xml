@@ -3,6 +3,7 @@
     package="com.joellui.ryu">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
         android:allowBackup="true"
@@ -13,7 +14,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".VideoActivity"
-            android:exported="false" />
+            android:exported="false"/>
         <activity
             android:name=".AnimeDetailsActivity"
             android:exported="false"

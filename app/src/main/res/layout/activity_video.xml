@@ -8,19 +8,20 @@
     android:orientation="horizontal"
     tools:context=".VideoActivity">
 
-    <VideoView
-        android:id="@+id/Video"
+    <com.google.android.exoplayer2.ui.PlayerView
+        android:id="@+id/playerView"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_centerHorizontal="true" />
+        android:layout_height="250dp"
+        app:show_shuffle_button="true"
+        app:show_subtitle_button="true"/>
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/Video"
+        android:layout_below="@id/playerView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/Video">
+        app:layout_constraintTop_toBottomOf="@id/playerView">
 
 
         <ScrollView
@@ -28,7 +29,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/Video">
+            app:layout_constraintTop_toBottomOf="@id/playerView">
 
             <RelativeLayout
                 android:layout_width="match_parent"

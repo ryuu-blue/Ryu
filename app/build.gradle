@@ -32,9 +32,6 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    buildFeatures {
-        viewBinding = true
-    }
 
     kotlinOptions {
         jvmTarget = '1.8'
@@ -69,7 +66,13 @@ dependencies {
 
     //URL
     implementation("io.coil-kt:coil:1.4.0")
-    implementation("io.coil-kt:coil-video:1.4.0")
 
+    implementation 'com.google.android.flexbox:flexbox:3.0.0'
 
+    //exoplayer
+    //implementation 'com.google.android.exoplayer:exoplayer:2.15.1'
+    // OR
+    implementation 'com.google.android.exoplayer:exoplayer-core:2.15.1'
+    implementation 'com.google.android.exoplayer:exoplayer-hls:2.15.1'
+    implementation 'com.google.android.exoplayer:exoplayer-ui:2.15.1'
 }

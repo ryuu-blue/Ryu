@@ -23,6 +23,8 @@ data class AnimeData(
     val cover_color: String,
     val banner_image: String,
     val genres: List<String>,
+    val sequel: Int,
+    val prequel: Int,
 
 
     val descriptions: Descriptions,
