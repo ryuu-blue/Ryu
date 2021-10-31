@@ -24,7 +24,12 @@ class SearchFragment : Fragment(), GridAdapter.OnClickListener {
         CoverData(
             "One Piece",
             "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/nx21-tXMN3Y20PIL9.jpg",
-            "11"
+            "11",
+        ),
+        CoverData(
+            "Saiyuuki RELOAD GUNLOCK",
+            "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/131.jpg",
+            "86"
         )
     )
 

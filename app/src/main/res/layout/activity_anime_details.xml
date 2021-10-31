@@ -12,12 +12,12 @@
         android:layout_height="wrap_content">
 
         <FrameLayout
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             android:id="@+id/FLimageFrame"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
                 android:id="@+id/IVanimeCover"
@@ -53,12 +53,12 @@
 
         <TextView
             android:id="@+id/TVscore"
-            android:paddingStart="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingStart="10dp"
             android:text="XX"
-            android:textStyle="bold"
             android:textSize="80dp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/TVtitle"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -67,11 +67,10 @@
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:text=" : : Score"
-            android:textStyle="bold"
             android:textSize="25sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/TVscore"
             app:layout_constraintStart_toEndOf="@id/TVscore" />
-
 
 
         <TextView
@@ -80,9 +79,9 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:gravity="center"
+            android:paddingLeft="10dp"
             android:paddingTop="10dp"
             android:paddingRight="10dp"
-            android:paddingLeft="10dp"
             android:text="Anime"
             android:textSize="40sp"
             android:textStyle="bold"
@@ -95,9 +94,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Status"
-            app:layout_constraintTop_toBottomOf="@id/TVtitle"
+            app:layout_constraintEnd_toEndOf="@id/TVtitle"
             app:layout_constraintStart_toStartOf="@id/TVtitle"
-            app:layout_constraintEnd_toEndOf="@id/TVtitle"/>
+            app:layout_constraintTop_toBottomOf="@id/TVtitle" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline"
@@ -107,99 +106,110 @@
             app:layout_constraintGuide_begin="460dp" />
 
         <TextView
-            android:layout_marginTop="20dp"
             android:id="@+id/TVjp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="20dp"
+            android:padding="10dp"
+            android:text="Alternative Title :"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:padding="10dp"
-            app:layout_constraintTop_toBottomOf="@id/TVstatus"
-            android:text="Japanese name :"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/TVstatus" />
 
         <TextView
             android:id="@+id/TVjpinput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:layout_marginBottom="16dp"
-            android:layout_marginRight="16dp"
             android:layout_marginLeft="16dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/TVjp"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/textbackground"
+            android:padding="10dp"
             android:text="Japanese"
-            android:background="@drawable/textbackground"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TVjp" />
 
         <TextView
-            android:layout_marginTop="20dp"
             android:id="@+id/TVseason"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="20dp"
+            android:padding="10dp"
+            android:text="Season :"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:padding="10dp"
-            app:layout_constraintTop_toBottomOf="@id/TVjpinput"
-            android:text="Season :"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/TVjpinput" />
 
         <TextView
             android:id="@+id/TVseasoninput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:layout_marginBottom="16dp"
-            android:layout_marginRight="16dp"
             android:layout_marginLeft="16dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/TVseason"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/textbackground"
+            android:padding="10dp"
             android:text="WINTER"
-            android:background="@drawable/textbackground"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TVseason" />
 
 
         <TextView
             android:id="@+id/TVgenres"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Genres :"
-            android:textStyle="bold"
             android:layout_marginTop="20dp"
             android:padding="10dp"
+            android:text="Genres :"
             android:textSize="20sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/TVseasoninput"/>
+            app:layout_constraintTop_toBottomOf="@id/TVseasoninput" />
 
         <com.google.android.flexbox.FlexboxLayout
-            android:orientation="horizontal"
-            app:justifyContent="center"
-            app:flexWrap="wrap"
             android:id="@+id/CGgenres"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="false"
-            app:layout_constraintTop_toBottomOf="@id/TVgenres"
+            android:orientation="horizontal"
+            app:flexWrap="wrap"
+            app:justifyContent="center"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@id/TVgenres" />
 
 
         <TextView
             android:id="@+id/TVdescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Description :"
             android:layout_margin="16dp"
-            android:background="@drawable/textbackground"
-            android:textStyle="bold"
             android:layout_marginTop="20dp"
+            android:background="@drawable/textbackground"
             android:padding="16dp"
+            android:text="Description :"
             android:textSize="16sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/CGgenres"/>
+            app:layout_constraintTop_toBottomOf="@id/CGgenres" />
+
+        <com.google.android.flexbox.FlexboxLayout
+            android:id="@+id/LLbtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/TVdescription">
 
 
+        </com.google.android.flexbox.FlexboxLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -264,6 +264,11 @@ open class VideoActivity : AppCompatActivity(), EpisodeAdapter.OnClickListener, 
         player.prepare()
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
+    }
+
 
 
 
