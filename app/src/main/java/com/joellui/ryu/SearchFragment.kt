@@ -43,7 +43,7 @@ class SearchFragment : Fragment(), GridAdapter.OnClickListener {
         val repository = Repository()
         val viewModelFactory = MainViewModelFactory(repository)
 
-        // api call
+        // api reader
         viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
         viewModel.myResponse.observe(viewLifecycleOwner, Observer { response ->
             if (response.isSuccessful) {

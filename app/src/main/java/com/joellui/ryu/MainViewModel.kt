@@ -26,7 +26,7 @@ class MainViewModel(private val repository: Repository) : ViewModel() {
 
     fun getRandomAnime(count: Int){
         viewModelScope.launch {
-            val  response = repository.getRandomAnime(count = 9)
+            val  response = repository.getRandomAnime(count)
             randomResponse.value = response
         }
     }
