@@ -26,6 +26,7 @@ class MainActivity : AppCompatActivity() {
         val mf = MainFragment()
         val df = DevFragment()
         val sf = SearchFragment()
+        val pf = ProfileFragment()
 
         supportFragmentManager.beginTransaction().apply {
             replace(R.id.Flfragment, mf)
@@ -62,10 +63,11 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.miProfile -> {
+                    supportFragmentManager.beginTransaction().apply {
+                        replace(R.id.Flfragment,pf)
+                        commit()
+                    }
 
-                    //TODO: This is Yet to be made
-
-                    Toast.makeText(applicationContext, "Profile", Toast.LENGTH_SHORT).show();
                     true
                 }
                 else -> false

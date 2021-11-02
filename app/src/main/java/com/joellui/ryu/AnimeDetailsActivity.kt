@@ -102,21 +102,6 @@ class AnimeDetailsActivity : AppCompatActivity() {
 
                         LL.visibility = View.VISIBLE
 
-//                    //prequel
-//                    val viewpre = layoutInflater.inflate(R.layout.anime_cover_item, null)
-//                    viewpre.setPadding(20, 20, 20, 20)
-//                    val tvItempre: TextView = viewpre.findViewById(R.id.TVtitle)
-//                    val coverpre: ImageView = viewpre.findViewById(R.id.IVanimeCover)
-//                    tvItempre.text = "Anime :: Prequel"
-//                    LL.addView(viewpre)
-//
-//                    //sequel
-//                    val viewse = layoutInflater.inflate(R.layout.anime_cover_item, null)
-//                    viewse.setPadding(20, 20, 20, 20)
-//                    val tvItemse: TextView = viewse.findViewById(R.id.TVtitle)
-//                    val coverse: ImageView = viewse.findViewById(R.id.IVanimeCover)
-//                    tvItemse.text = "Anime :: Sequel"
-//                    LL.addView(viewse)
                     }
                     if (se != 0 && pre == 0) {
                         LL.visibility = View.VISIBLE
@@ -126,11 +111,6 @@ class AnimeDetailsActivity : AppCompatActivity() {
                         apiPreSeq(se)
 
 
-//                        val viewse = layoutInflater.inflate(R.layout.anime_cover_item, null)
-//                        val tvItem: TextView = viewse.findViewById(R.id.TVtitle)
-//                        val cover: ImageView = viewse.findViewById(R.id.IVanimeCover)
-//                        tvItem.text = "Anime -- sequal"
-//                        LL.addView(viewse)
 
                     }
                     if (pre != 0 && se == 0) {
@@ -140,11 +120,7 @@ class AnimeDetailsActivity : AppCompatActivity() {
                         seq = mapOf(se!! to "pre", pre!! to "seq")!!
                         apiPreSeq(pre)
 
-//                        val viewpre = layoutInflater.inflate(R.layout.anime_cover_item, null)
-//                        val tvItem: TextView = viewpre.findViewById(R.id.TVtitle)
-//                        val cover: ImageView = viewpre.findViewById(R.id.IVanimeCover)
-//                        tvItem.text = "Anime -- prequal"
-//                        LL.addView(viewpre)
+
                     }
 
                     // Creating season - year
@@ -157,7 +133,7 @@ class AnimeDetailsActivity : AppCompatActivity() {
                     //setting description if available
                     if (descriptionRes != "" && descriptionRes != null) {
                         description.isVisible = true
-                        var desc = "Description: \n\n $descriptionRes"
+                        val desc = "Description: \n\n $descriptionRes"
                         description.text = desc
                     } else {
                         description.isVisible = false
@@ -228,7 +204,11 @@ class AnimeDetailsActivity : AppCompatActivity() {
         val title = response.body()?.data?.titles?.en
         val cover = response.body()?.data?.cover_image
 
-        tvItempre.text = title
+        if(isPreseq) {
+            tvItempre.text = "$title :: Sequel"
+        }else{
+            tvItempre.text = "$title :: Prequel"
+        }
         coverpre.load(cover){
             crossfade(true)
             crossfade(1000)
@@ -244,7 +224,7 @@ class AnimeDetailsActivity : AppCompatActivity() {
             startActivity(intent) }
 
         if (isPreseq) {
-            LL.addView(viewpre, 0)
+            LL.addView(viewpre)
         } else {
             LL.addView(viewpre)
         }

@@ -15,19 +15,42 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
+        android:id="@+id/appIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:src="@mipmap/ic_launcher_round"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+
+    <ImageView
         android:id="@+id/aniapi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="20dp"
+        android:layout_margin="20dp"
+        android:padding="10dp"
+        android:scaleX="0.85"
+        android:scaleY="0.85"
+        android:scaleType="center"
         android:src="@mipmap/ic_aniapi_round"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/appIcon" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Aniapi.com"
+        android:textSize="18sp"
+        app:layout_constraintTop_toTopOf="@id/aniapi"
+        app:layout_constraintBottom_toBottomOf="@id/aniapi"
+        app:layout_constraintStart_toEndOf="@id/aniapi"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_margin="20dp"
         android:textSize="20sp"
-        android:text="RYU is an anime project made only for anime Lover."
+        android:text="Ryu is an anime project for streaming anime. If you like the project pls support."
         android:padding="20dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
