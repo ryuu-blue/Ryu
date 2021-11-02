@@ -8,13 +8,29 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.joellui.ryu.MainFragment
 import com.joellui.ryu.R
 
 class BannerAdapter(
-    var banner: List<BannerCover>
+    var banner: List<BannerCover>,
+    val listener: OnClickListener
 ): RecyclerView.Adapter<BannerAdapter.BannerViewHolder>() {
 
-    inner class BannerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){ }
+    inner class BannerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
+    View.OnClickListener{
+        init {
+            itemView.setOnClickListener(
+                this
+            )
+        }
+
+        override fun onClick(v: View?) {
+            val position = adapterPosition
+            if (position != RecyclerView.NO_POSITION){
+                listener.onClick(position)
+            }
+        }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BannerViewHolder {
 
@@ -25,9 +41,9 @@ class BannerAdapter(
     override fun onBindViewHolder(holder: BannerViewHolder, position: Int) {
         holder.itemView.apply {
 
-            var title : TextView = findViewById(R.id.TVtitle)
-            var img : ImageView = findViewById(R.id.IVbannerCover)
-            var score : TextView = findViewById(R.id.TVscoreBanner)
+            val title : TextView = findViewById(R.id.TVtitle)
+            val img : ImageView = findViewById(R.id.IVbannerCover)
+            val score : TextView = findViewById(R.id.TVscoreBanner)
 
             title.text = banner[position].title
             score.text = banner[position].score
@@ -44,5 +60,9 @@ class BannerAdapter(
 
     override fun getItemCount(): Int {
         return banner.size
+    }
+
+    interface OnClickListener {
+        fun onClick(position: Int)
     }
 }

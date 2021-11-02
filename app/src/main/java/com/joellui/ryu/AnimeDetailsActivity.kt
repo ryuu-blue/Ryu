@@ -155,7 +155,7 @@ class AnimeDetailsActivity : AppCompatActivity() {
                     jp.text = jpTitle
 
                     //setting description if available
-                    if (descriptionRes != "") {
+                    if (descriptionRes != "" && descriptionRes != null) {
                         description.isVisible = true
                         var desc = "Description: \n\n $descriptionRes"
                         description.text = desc

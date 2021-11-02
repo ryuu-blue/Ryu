@@ -1,21 +1,20 @@
 package com.joellui.ryu
 
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.joellui.ryu.adapter.BannerAdapter
 import com.joellui.ryu.adapter.BannerCover
-import com.joellui.ryu.adapter.CoverData
-import com.joellui.ryu.adapter.GridAdapter
 import com.joellui.ryu.repositry.Repository
 
-class MainFragment : Fragment() {
+class MainFragment : Fragment(), BannerAdapter.OnClickListener {
 
     private lateinit var viewModel: MainViewModel
 
@@ -42,10 +41,11 @@ class MainFragment : Fragment() {
         viewModel.randomResponse.observe(viewLifecycleOwner, Observer { response ->
 
             if (response.isSuccessful) {
-                val banner = BannerAdapter(bannerlist)
+                val banner = BannerAdapter(bannerlist,this)
 
                 for (i in response.body()?.data!!) {
 
+                    if (i.cover_color != null){
                     bannerlist.add(
                         BannerCover(
                             i.titles.en,
@@ -55,6 +55,7 @@ class MainFragment : Fragment() {
                             i.cover_color
                         )
                     )
+                    }
                 }
                 stage.adapter = banner
 
@@ -66,10 +67,22 @@ class MainFragment : Fragment() {
             viewModel.getRandomAnime(3)
         }
 
-        val banner = BannerAdapter(bannerlist)
+        val banner = BannerAdapter(bannerlist,this)
         stage.adapter = banner
 
 
         return mainLayout
     }
+
+    override fun onClick(position: Int) {
+        Toast.makeText(context, "" + bannerlist[position].id, Toast.LENGTH_SHORT).show()
+
+
+        val intent = Intent(context, AnimeDetailsActivity::class.java)
+        intent.putExtra("id", bannerlist[position].id)
+        intent.putExtra("title", bannerlist[position].title)
+        intent.putExtra("image", bannerlist[position].img)
+        startActivity(intent)
+    }
+
 }
