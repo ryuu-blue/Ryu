@@ -58,13 +58,12 @@ class MainFragment : Fragment(), BannerAdapter.OnClickListener {
                     }
                 }
                 stage.adapter = banner
-
             }
         })
 
 
-        if (bannerlist.size < 3) {
-            viewModel.getRandomAnime(3)
+        if (bannerlist.size < 5) {
+            viewModel.getRandomAnime(5)
         }
 
         val banner = BannerAdapter(bannerlist,this)

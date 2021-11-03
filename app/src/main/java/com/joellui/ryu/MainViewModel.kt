@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.joellui.ryu.model.EpisodePost
 import com.joellui.ryu.model.AnimePost
 import com.joellui.ryu.model.RandomAnimePost
+import com.joellui.ryu.model.SearchPost
 import com.joellui.ryu.repositry.Repository
 import kotlinx.coroutines.launch
 import retrofit2.Response
@@ -15,6 +16,7 @@ class MainViewModel(private val repository: Repository) : ViewModel() {
     val myResponse: MutableLiveData<Response<AnimePost>> = MutableLiveData()
     val episodeResponse: MutableLiveData<Response<EpisodePost>> = MutableLiveData()
     val randomResponse: MutableLiveData<Response<RandomAnimePost>> = MutableLiveData()
+    val searchResponse: MutableLiveData<Response<SearchPost>> = MutableLiveData()
 
     fun getPost(number: Int) {
         viewModelScope.launch {
@@ -42,4 +44,17 @@ class MainViewModel(private val repository: Repository) : ViewModel() {
             episodeResponse.value = response
         }
     }
+
+    fun getSearchAnime(
+        title: String,
+        status: String = "0,1,3",
+        nsfw: Boolean = false
+    ){
+        viewModelScope.launch {
+            val response = repository.getSearchAnime(title, status, nsfw)
+            searchResponse.value = response
+        }
+    }
+
+
 }

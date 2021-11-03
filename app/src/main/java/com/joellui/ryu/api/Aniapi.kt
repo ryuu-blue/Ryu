@@ -3,6 +3,7 @@ package com.joellui.ryu.api
 import com.joellui.ryu.model.EpisodePost
 import com.joellui.ryu.model.AnimePost
 import com.joellui.ryu.model.RandomAnimePost
+import com.joellui.ryu.model.SearchPost
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -28,5 +29,12 @@ interface Aniapi {
     suspend fun getRandomAnime(
         @Path("count") number: Int = 9
     ): Response<RandomAnimePost>
+
+    @GET("v1/anime")
+    suspend fun getSearchAnime(
+        @Query("title") title: String,
+        @Query("status") number: String = "0,1,3",
+        @Query("nsfw") nsfw: Boolean = false,
+    ): Response<SearchPost>
 
 }

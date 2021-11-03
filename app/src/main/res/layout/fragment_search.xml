@@ -15,6 +15,21 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <SearchView
+        android:queryBackground="@android:color/transparent"
+        android:iconifiedByDefault="false"
+        android:searchIcon="@drawable/ic_search"
+        android:background="@drawable/bottom_navigation_background"
+        android:layout_marginTop="50dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/stage_rv"
         android:layout_width="match_parent"

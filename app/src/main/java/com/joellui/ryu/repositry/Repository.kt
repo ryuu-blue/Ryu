@@ -1,9 +1,6 @@
 package com.joellui.ryu.repositry
 
-import com.joellui.ryu.model.EpisodePost
-import com.joellui.ryu.model.AnimePost
-import com.joellui.ryu.model.RandomAnimePost
-import com.joellui.ryu.model.RetrofitInstance
+import com.joellui.ryu.model.*
 import retrofit2.Response
 
 class Repository {
@@ -22,5 +19,13 @@ class Repository {
         current_page: Int
     ): Response<EpisodePost> {
         return RetrofitInstance.api.getEpisode(number, src, local, current_page)
+    }
+
+    suspend fun getSearchAnime(
+        title: String,
+        status: String,
+        nsfw: Boolean,
+    ): Response<SearchPost> {
+        return  RetrofitInstance.api.getSearchAnime(title,status,nsfw)
     }
 }
