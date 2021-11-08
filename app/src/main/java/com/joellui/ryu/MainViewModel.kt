@@ -47,11 +47,10 @@ class MainViewModel(private val repository: Repository) : ViewModel() {
 
     fun getSearchAnime(
         title: String,
-        status: String = "0,1,3",
         nsfw: Boolean = false
     ){
         viewModelScope.launch {
-            val response = repository.getSearchAnime(title, status, nsfw)
+            val response = repository.getSearchAnime(title, nsfw)
             searchResponse.value = response
         }
     }

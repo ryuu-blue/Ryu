@@ -35,8 +35,7 @@ class AnimeDetailsActivity : AppCompatActivity() {
     lateinit var seq: Map<Int, String>
 
     var statusList: List<String> = listOf("FINISHED", "RELEASING", "NOT_YET_RELEASED", "CANCELLED")
-    var formatList: List<String> =
-        listOf("TV", "TV_SHORT", "MOVIE", "SPECIAL", "OVA", "ONA", "MUSIC")
+    var formatList: List<String> = listOf("TV", "TV_SHORT", "MOVIE", "SPECIAL", "OVA", "ONA", "MUSIC")
     var seasonPeriodList: List<String> = listOf("WINTER", "SPRING", "SUMMER", "FALL", "UNKNOWN")
     var isFirstTime = true
 

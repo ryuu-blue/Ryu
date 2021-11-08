@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -14,12 +16,15 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.joellui.ryu.adapter.CoverData
 import com.joellui.ryu.adapter.GridAdapter
+import com.joellui.ryu.adapter.SearchAdapter
+import com.joellui.ryu.model.AnimeData
 import com.joellui.ryu.repositry.Repository
 
 class SearchFragment : Fragment(), GridAdapter.OnClickListener {
 
     private lateinit var viewModel: MainViewModel
 
+    var search_result = mutableListOf<AnimeData>()
     var cover = mutableListOf<CoverData>(
         CoverData(
             "One Piece",
@@ -40,8 +45,44 @@ class SearchFragment : Fragment(), GridAdapter.OnClickListener {
     ): View? {
         val mainLayout = inflater.inflate(R.layout.fragment_search, container, false)
         val stage = mainLayout.findViewById<RecyclerView>(R.id.stage_rv)
+        val searchRV = mainLayout.findViewById<RecyclerView>(R.id.search_result)
+        val searchView = mainLayout.findViewById<SearchView>(R.id.search_bar)
         val repository = Repository()
         val viewModelFactory = MainViewModelFactory(repository)
+
+        //search api
+        val searchAdapter = SearchAdapter(search_result)
+        searchRV.adapter = searchAdapter
+        searchView.setOnQueryTextListener(object :SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                if (query != null) {
+                    stage.visibility = View.GONE
+                    searchRV.visibility = View.VISIBLE
+                    viewModel.getSearchAnime(query)
+                }
+                return false
+            }
+
+
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if(newText == "") {
+                    stage.visibility = View.VISIBLE
+                    searchRV.visibility = View.GONE
+                }
+                return false
+            }
+
+        })
+        viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
+        viewModel.searchResponse.observe(viewLifecycleOwner, Observer { result ->
+            if (result.isSuccessful){
+                val searchResultAdapter = SearchAdapter(result.body()?.data?.documents!!)
+                search_result.addAll(result.body()?.data?.documents!!)
+                searchRV.adapter = searchResultAdapter
+            }
+        })
+
 
         // api reader
         viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)

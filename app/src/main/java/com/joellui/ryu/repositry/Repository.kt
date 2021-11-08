@@ -23,9 +23,8 @@ class Repository {
 
     suspend fun getSearchAnime(
         title: String,
-        status: String,
         nsfw: Boolean,
     ): Response<SearchPost> {
-        return  RetrofitInstance.api.getSearchAnime(title,status,nsfw)
+        return  RetrofitInstance.api.getSearchAnime(title,nsfw)
     }
 }

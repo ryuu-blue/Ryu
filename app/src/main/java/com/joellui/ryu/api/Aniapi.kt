@@ -33,7 +33,6 @@ interface Aniapi {
     @GET("v1/anime")
     suspend fun getSearchAnime(
         @Query("title") title: String,
-        @Query("status") number: String = "0,1,3",
         @Query("nsfw") nsfw: Boolean = false,
     ): Response<SearchPost>
 
