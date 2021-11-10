@@ -59,6 +59,8 @@ class AnimeDetailsActivity : AppCompatActivity() {
         val image = bundle.getString("image")
         val id = bundle.getString("id")
 
+        Log.v("MSS", "UR ID is $id")
+
 
         title.text = heading
         cover.load(image) {
@@ -184,8 +186,13 @@ class AnimeDetailsActivity : AppCompatActivity() {
             }
         })
 
+
         // API call
-        viewModel.getPost(id!!.toInt())
+        if (id != null && id != "" ) {
+            viewModel.getPost(id.toInt())
+        }else{
+            Toast.makeText(applicationContext, "id error -> $id", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun apiPreSeq(id: Int) {

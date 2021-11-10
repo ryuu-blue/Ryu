@@ -19,6 +19,7 @@ import com.joellui.ryu.model.EpisodeDocument
 import com.joellui.ryu.repositry.Repository
 import android.content.SharedPreferences
 import android.net.Uri
+import android.webkit.WebView
 import com.google.android.exoplayer2.*
 import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.source.hls.HlsMediaSource
@@ -34,17 +35,14 @@ import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.ui.StyledPlayerView
 
 import android.widget.TextView
-
-import android.widget.LinearLayout
-import androidx.annotation.Nullable
 import androidx.core.net.toUri
+import com.google.android.exoplayer2.extractor.ts.DefaultTsPayloadReaderFactory
 import com.google.android.exoplayer2.source.TrackGroupArray
 import com.google.android.exoplayer2.upstream.*
 
 import com.google.android.exoplayer2.util.DebugTextViewHelper
 import java.net.URI
 import com.google.android.exoplayer2.util.MimeTypes
-import com.google.android.exoplayer2.source.hls.HlsManifest
 
 
 
@@ -64,7 +62,28 @@ open class VideoActivity : AppCompatActivity(), EpisodeAdapter.OnClickListener, 
 
     fun initPlayer(){
         val playerView = findViewById<PlayerView>(R.id.playerView)
-        player = SimpleExoPlayer.Builder(this).build()
+        val trackSelector = DefaultTrackSelector(this).apply {
+            setParameters(buildUponParameters().setMaxVideoSizeSd())
+        }
+        player = SimpleExoPlayer.Builder(this)
+            .setTrackSelector(trackSelector)
+            .build()
+            .also { exoPlayer ->
+                val mediaItem = MediaItem.Builder()
+                    .setUri(
+                        Uri.parse("https://api.aniapi.com/v1/proxy/https%3a%2f%2fgogoplay1.com%2fstreaming.php%3fid%3dODgzODY%3d%26title%3dOne%2bPiece%2b%2528Dub%2529%2bEpisode%2b2/gogoanime/"))
+                    .setMimeType(MimeTypes.APPLICATION_M3U8)
+                    .build()
+                val dataSourceFactory = DefaultHttpDataSource.Factory()
+                val userAgent = WebView(this).settings.userAgentString
+                dataSourceFactory.setUserAgent(userAgent)
+                val source = HlsMediaSource.Factory(dataSourceFactory).createMediaSource(mediaItem)
+                exoPlayer.playWhenReady = true
+                exoPlayer.addMediaSource(source)
+                exoPlayer.addListener(this)
+                exoPlayer.prepare()
+            }
+
         playerView.player = player
 
     }
@@ -143,30 +162,10 @@ open class VideoActivity : AppCompatActivity(), EpisodeAdapter.OnClickListener, 
 
                     Log.v("MSS", episode[1].video.toUri().toString())
                     val episodeUri: Uri = episode[1].video.toUri()
-                    /*val mediaItem: MediaItem = MediaItem.Builder().setUri(episode[1].video).setMimeType(MimeTypes.APPLICATION_M3U8).build()
-
-                    player.setMediaItem(mediaItem)
-                    player.addListener(this)
-                    player.prepare()*/
-
-                    val dataSourceFactory: DataSource.Factory = DefaultHttpDataSource.Factory()
-                        .setUserAgent("PostmanRuntime/7.28.4")
-                        .setAllowCrossProtocolRedirects(true)
-                        .setConnectTimeoutMs(10000)
-
-                    val hlsMediaSource: HlsMediaSource = HlsMediaSource.Factory(dataSourceFactory)
-                        .setAllowChunklessPreparation(true)
-
-                        .createMediaSource(MediaItem.fromUri(episodeUri))
 
 
 
-                    val player = SimpleExoPlayer.Builder(this).build()
 
-                    player.setMediaSource(hlsMediaSource)
-                    player.prepare()
-
-                    //player.play()
 
                     // one page
                 } else {

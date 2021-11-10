@@ -13,10 +13,26 @@ import com.joellui.ryu.R
 import com.joellui.ryu.model.AnimeData
 
 class SearchAdapter(
-    var search_result: List<AnimeData>
+    var search_result: List<AnimeData>,
+    val listener: OnClickListener
 ) : RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
 
-    inner class SearchViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){}
+    inner class SearchViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
+    View.OnClickListener{
+        init {
+            itemView.setOnClickListener(
+                this
+            )
+        }
+
+        override fun onClick(v: View?) {
+            val position = adapterPosition
+            if (position!= RecyclerView.NO_POSITION){
+                listener.searchResultClick(position)
+            }
+        }
+
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.search_row_item,parent,false)
@@ -51,4 +67,9 @@ class SearchAdapter(
     override fun getItemCount(): Int {
         return search_result.size
     }
+
+    interface OnClickListener{
+        fun searchResultClick(position: Int)
+    }
+
 }

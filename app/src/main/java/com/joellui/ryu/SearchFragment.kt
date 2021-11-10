@@ -20,7 +20,7 @@ import com.joellui.ryu.adapter.SearchAdapter
 import com.joellui.ryu.model.AnimeData
 import com.joellui.ryu.repositry.Repository
 
-class SearchFragment : Fragment(), GridAdapter.OnClickListener {
+class SearchFragment : Fragment(), GridAdapter.OnClickListener, SearchAdapter.OnClickListener {
 
     private lateinit var viewModel: MainViewModel
 
@@ -51,8 +51,6 @@ class SearchFragment : Fragment(), GridAdapter.OnClickListener {
         val viewModelFactory = MainViewModelFactory(repository)
 
         //search api
-        val searchAdapter = SearchAdapter(search_result)
-        searchRV.adapter = searchAdapter
         searchView.setOnQueryTextListener(object :SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (query != null) {
@@ -77,11 +75,20 @@ class SearchFragment : Fragment(), GridAdapter.OnClickListener {
         viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
         viewModel.searchResponse.observe(viewLifecycleOwner, Observer { result ->
             if (result.isSuccessful){
-                val searchResultAdapter = SearchAdapter(result.body()?.data?.documents!!)
-                search_result.addAll(result.body()?.data?.documents!!)
-                searchRV.adapter = searchResultAdapter
+
+
+                val searchResultAdapter = SearchAdapter(result.body()?.data?.documents!!,this@SearchFragment)
+                if(search_result.isEmpty()) {
+                    search_result.addAll(result.body()?.data?.documents!!)
+                    searchRV.adapter = searchResultAdapter
+                }else{
+                    search_result.clear()
+                    search_result.addAll(result.body()?.data?.documents!!)
+                    searchRV.adapter = searchResultAdapter
+                }
             }
         })
+
 
 
         // api reader
@@ -122,7 +129,7 @@ class SearchFragment : Fragment(), GridAdapter.OnClickListener {
         return mainLayout
     }
 
-    //response to recyclerview onclick to open anime details page
+    //response  recyclerview onclick to open anime details page
     override fun onClick(position: Int) {
         Toast.makeText(context, "" + cover[position].id, Toast.LENGTH_SHORT).show()
 
@@ -130,6 +137,16 @@ class SearchFragment : Fragment(), GridAdapter.OnClickListener {
         intent.putExtra("id", cover[position].id)
         intent.putExtra("title", cover[position].title)
         intent.putExtra("image", cover[position].img)
+        startActivity(intent)
+    }
+
+    override fun searchResultClick(position: Int) {
+        Toast.makeText(context, ""+search_result[position].id, Toast.LENGTH_SHORT).show()
+
+        val intent = Intent(context, AnimeDetailsActivity::class.java)
+        intent.putExtra("id",search_result[position].id.toString())
+        intent.putExtra("title",search_result[position].titles.en)
+        intent.putExtra("image",search_result[position].cover_image)
         startActivity(intent)
     }
 
