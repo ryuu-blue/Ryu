@@ -36,6 +36,7 @@ import com.google.android.exoplayer2.ui.StyledPlayerView
 
 import android.widget.TextView
 import androidx.core.net.toUri
+import androidx.lifecycle.ViewModelProviders
 import com.google.android.exoplayer2.extractor.ts.DefaultTsPayloadReaderFactory
 import com.google.android.exoplayer2.source.TrackGroupArray
 import com.google.android.exoplayer2.upstream.*
@@ -43,66 +44,15 @@ import com.google.android.exoplayer2.upstream.*
 import com.google.android.exoplayer2.util.DebugTextViewHelper
 import java.net.URI
 import com.google.android.exoplayer2.util.MimeTypes
+import kotlinx.android.synthetic.main.activity_video.*
 
-
-
-
-
-
-
-
-open class VideoActivity : AppCompatActivity(), EpisodeAdapter.OnClickListener, Player.Listener {
+open class VideoActivity : AppCompatActivity(), EpisodeAdapter.OnClickListener {
 
     private lateinit var viewModel: MainViewModel
 
-    lateinit var player: SimpleExoPlayer
-
+    lateinit var videoViewModel: VideoViewModel
     var episode = emptyList<EpisodeDocument>()
-
-
-    fun initPlayer(){
-        val playerView = findViewById<PlayerView>(R.id.playerView)
-        val trackSelector = DefaultTrackSelector(this).apply {
-            setParameters(buildUponParameters().setMaxVideoSizeSd())
-        }
-        player = SimpleExoPlayer.Builder(this)
-            .setTrackSelector(trackSelector)
-            .build()
-            .also { exoPlayer ->
-                val mediaItem = MediaItem.Builder()
-                    .setUri(
-                        Uri.parse("https://api.aniapi.com/v1/proxy/https%3a%2f%2fgogoplay1.com%2fstreaming.php%3fid%3dODgzODY%3d%26title%3dOne%2bPiece%2b%2528Dub%2529%2bEpisode%2b2/gogoanime/"))
-                    .setMimeType(MimeTypes.APPLICATION_M3U8)
-                    .build()
-                val dataSourceFactory = DefaultHttpDataSource.Factory()
-                val userAgent = WebView(this).settings.userAgentString
-                dataSourceFactory.setUserAgent(userAgent)
-                val source = HlsMediaSource.Factory(dataSourceFactory).createMediaSource(mediaItem)
-                exoPlayer.playWhenReady = true
-                exoPlayer.addMediaSource(source)
-                exoPlayer.addListener(this)
-                exoPlayer.prepare()
-            }
-
-        playerView.player = player
-
-    }
-
-    override fun onStart() {
-        super.onStart()
-        initPlayer()
-    }
-
-
-    override fun onDestroy() {
-        super.onDestroy()
-        player.release()
-    }
-
-    override fun onPlayerError(error: PlaybackException) {
-        super.onPlayerError(error)
-        Log.d("exo", "Error $error")
-    }
+    var episodePlaylist = mutableListOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -117,14 +67,25 @@ open class VideoActivity : AppCompatActivity(), EpisodeAdapter.OnClickListener, 
         val setDev: TextView = findViewById(R.id.dev)
         val dropDownButton: Spinner = findViewById(R.id.episodePage)
         val stage: RecyclerView = findViewById(R.id.rvEpisodes)
+        var currentPage = -1
+
+        // VideoViewModel
+        videoViewModel = ViewModelProvider(this).get(VideoViewModel::class.java)
+        videoViewModel.player.observe(this, Observer {
+            playerView.player = it
+        })
+        videoViewModel.error.observe(this, Observer {
+            playerErrorView.text = it
+            playerErrorView.visibility = View.VISIBLE
+        })
 
         val repo = Repository()
         val viewModelFactory = MainViewModelFactory(repo)
         viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
         viewModel.episodeResponse.observe(this, Observer { response ->
 
-            if (response.isSuccessful) {
-
+            if (response.isSuccessful && response.body()?.data!!.current_page != currentPage) {
+                currentPage = response.body()?.data!!.current_page
                 episode = response.body()?.data!!.documents
 
                 val adapter = EpisodeAdapter(episode,this)
@@ -135,7 +96,7 @@ open class VideoActivity : AppCompatActivity(), EpisodeAdapter.OnClickListener, 
                 setDev.text = response.body()?.message.toString()
                 val lastPage = response.body()?.data?.last_page
 
-                // if there is more than one page
+                // MultiPage
                 if (lastPage != 1) {
                     val view: View = findViewById(R.id.llspinner)
                     view.isVisible = true
@@ -147,7 +108,6 @@ open class VideoActivity : AppCompatActivity(), EpisodeAdapter.OnClickListener, 
                         ++i
                     }
 
-
                     // Adapter
                     if (dropDownButton.adapter == null) {
                         val arrayAdapter = ArrayAdapter(this, R.layout.spinner_text, episodePages)
@@ -155,17 +115,9 @@ open class VideoActivity : AppCompatActivity(), EpisodeAdapter.OnClickListener, 
                         arrayAdapter.setDropDownViewResource(R.layout.spinner_checked)
                     }
 
-                    //adding content to media list
-                    //for(i in episode){
-                        //mediaPlayList(i.video)
-                    //}
-
-                    Log.v("MSS", episode[1].video.toUri().toString())
-                    val episodeUri: Uri = episode[1].video.toUri()
-
-
-
-
+                    val dataSourceFactory = DefaultHttpDataSource.Factory()
+                    val userAgent = WebView(application).settings.userAgentString
+                    dataSourceFactory.setUserAgent(userAgent)
 
                     // one page
                 } else {
@@ -182,8 +134,17 @@ open class VideoActivity : AppCompatActivity(), EpisodeAdapter.OnClickListener, 
                     arrayAdapter.setDropDownViewResource(R.layout.spinner_checked)
 
                     Log.d("Response", "only 1 page")
-
                 }
+
+                //adding content to media list
+                episodePlaylist.clear()
+
+                for (i in episode) {
+                    episodePlaylist.add(i.video)
+                }
+
+                Log.v("MSS", "WE ARE READY!")
+                videoViewModel.setPlaylist(episodePlaylist)
 
 
             } else {
@@ -209,8 +170,6 @@ open class VideoActivity : AppCompatActivity(), EpisodeAdapter.OnClickListener, 
         })
 
         dropDownButton.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-
-
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
@@ -219,13 +178,11 @@ open class VideoActivity : AppCompatActivity(), EpisodeAdapter.OnClickListener, 
             ) {
 
                 Toast.makeText(this@VideoActivity, "${position + 1}", Toast.LENGTH_SHORT).show()
-
                 viewModel.getEpisode(number = anime_id!!.toInt(), current_page = position + 1)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 viewModel.getEpisode(anime_id!!.toInt())
-
             }
         }
 
@@ -247,28 +204,11 @@ open class VideoActivity : AppCompatActivity(), EpisodeAdapter.OnClickListener, 
 
     override fun OnClick(position: Int) {
         Toast.makeText(this, "episode -> "+episode[position].number, Toast.LENGTH_SHORT).show()
-
-        player.play()
-
-    }
-
-    private fun mediaPlayList(item: String){
-//        val mediaItem: MediaItem = MediaItem.Builder()
-//            .setUri(item)
-//            .setMimeType(MimeTypes.APPLICATION_M3U8)
-//            .build()
-
-        val mediaItem: MediaItem = MediaItem.fromUri(item)
-        player.addMediaItem(mediaItem)
-        player.prepare()
+        videoViewModel.setEpisode(position)
     }
 
     override fun onBackPressed() {
         super.onBackPressed()
         finish()
     }
-
-
-
-
 }

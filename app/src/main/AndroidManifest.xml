@@ -14,6 +14,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".VideoActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
             android:exported="false" />
         <activity
             android:name=".AnimeDetailsActivity"
