@@ -18,7 +18,9 @@ import com.joellui.ryu.adapter.EpisodeAdapter
 import com.joellui.ryu.model.EpisodeDocument
 import com.joellui.ryu.repositry.Repository
 import android.content.SharedPreferences
+import android.content.res.Configuration
 import android.net.Uri
+import android.view.ViewGroup
 import android.webkit.WebView
 import com.google.android.exoplayer2.*
 import com.google.android.exoplayer2.source.MediaSource
@@ -45,6 +47,12 @@ import com.google.android.exoplayer2.util.DebugTextViewHelper
 import java.net.URI
 import com.google.android.exoplayer2.util.MimeTypes
 import kotlinx.android.synthetic.main.activity_video.*
+import android.widget.Toast
+
+import org.jetbrains.annotations.NotNull
+
+
+
 
 open class VideoActivity : AppCompatActivity(), EpisodeAdapter.OnClickListener {
 
@@ -194,6 +202,20 @@ open class VideoActivity : AppCompatActivity(), EpisodeAdapter.OnClickListener {
             crossfade(1000)
         }
 
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+
+        // Checks the orientation of the screen
+        if (newConfig.orientation === Configuration.ORIENTATION_LANDSCAPE) {
+            Toast.makeText(this, "landscape", Toast.LENGTH_SHORT).show()
+            val p = playerView.layoutParams
+            p.height = ViewGroup.LayoutParams.MATCH_PARENT
+            playerView.layoutParams = p
+        } else if (newConfig.orientation === Configuration.ORIENTATION_PORTRAIT) {
+            Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun arrayAppend(arr: Array<String>, element: Int): Array<String> {
