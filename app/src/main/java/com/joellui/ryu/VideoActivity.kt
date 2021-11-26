@@ -213,9 +213,29 @@ open class VideoActivity : AppCompatActivity(), EpisodeAdapter.OnClickListener {
             val p = playerView.layoutParams
             p.height = ViewGroup.LayoutParams.MATCH_PARENT
             playerView.layoutParams = p
+            hideSystemUI()
+
         } else if (newConfig.orientation === Configuration.ORIENTATION_PORTRAIT) {
             Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show()
+            showSystemUI()
         }
+    }
+
+    private fun hideSystemUI(){
+        window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_IMMERSIVE
+                // Set the content to appear under the system bars so that the
+                // content doesn't resize when the system bars hide and show.
+                or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                // Hide the nav bar and status bar
+                or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                or View.SYSTEM_UI_FLAG_FULLSCREEN)
+    }
+    private fun showSystemUI(){
+        window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
     }
 
     private fun arrayAppend(arr: Array<String>, element: Int): Array<String> {
