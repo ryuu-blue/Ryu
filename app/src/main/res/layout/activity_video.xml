@@ -100,6 +100,9 @@
                     android:layout_below="@id/tvTitle"
                     android:layout_margin="12dp"
                     android:padding="5dp"
+                    tools:listitem="@layout/ep_btn_item"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:spanCount="5"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 

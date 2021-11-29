@@ -1,5 +1,7 @@
 package com.joellui.ryu.adapter
 
+import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,7 +27,7 @@ class EpisodeAdapter(
         override fun onClick(v: View?) {
             val position = adapterPosition
             if (position != RecyclerView.NO_POSITION){
-                listener.OnClick(position)
+                listener.OnClick(v!!, position)
             }
         }
     }
@@ -33,14 +35,17 @@ class EpisodeAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EpisodeViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.ep_btn_item, parent, false)
         return EpisodeViewHolder(view)
-
     }
 
     override fun onBindViewHolder(holder: EpisodeViewHolder, position: Int) {
-
         holder.itemView.apply {
             val epBtn: Button = findViewById(R.id.epButton)
             epBtn.text = episode[position].number.toString()
+            epBtn.tag = "episode_btn_${epBtn.text}"
+
+            if (position == 0) {
+                epBtn.isPressed = true
+            }
         }
     }
 
@@ -49,6 +54,6 @@ class EpisodeAdapter(
     }
 
     interface OnClickListener{
-        fun OnClick(position: Int)
+        fun OnClick(view: View, position: Int)
     }
 }

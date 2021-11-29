@@ -19,6 +19,7 @@ import com.joellui.ryu.model.EpisodeDocument
 import com.joellui.ryu.repositry.Repository
 import android.content.SharedPreferences
 import android.content.res.Configuration
+import android.graphics.Color
 import android.net.Uri
 import android.view.ViewGroup
 import android.webkit.WebView
@@ -59,6 +60,7 @@ open class VideoActivity : AppCompatActivity(), EpisodeAdapter.OnClickListener {
     private lateinit var viewModel: MainViewModel
 
     lateinit var videoViewModel: VideoViewModel
+
     var episode = emptyList<EpisodeDocument>()
     var episodePlaylist = mutableListOf<String>()
 
@@ -152,6 +154,7 @@ open class VideoActivity : AppCompatActivity(), EpisodeAdapter.OnClickListener {
                 }
 
                 Log.v("MSS", "WE ARE READY!")
+                //stage.adapter.getFirstItem()!!.setBackgroundColor(Color.CYAN)
                 videoViewModel.setPlaylist(episodePlaylist)
 
 
@@ -244,9 +247,9 @@ open class VideoActivity : AppCompatActivity(), EpisodeAdapter.OnClickListener {
         return list.toTypedArray()
     }
 
-    override fun OnClick(position: Int) {
+    override fun OnClick(view: View, position: Int) {
         Toast.makeText(this, "episode -> "+episode[position].number, Toast.LENGTH_SHORT).show()
-        videoViewModel.setEpisode(position)
+        videoViewModel.setEpisode(rvEpisodes, view as Button, position)
     }
 
     override fun onBackPressed() {

@@ -7,8 +7,11 @@ import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSource
 
 import android.app.Application
+import android.graphics.Color
 import android.net.Uri
 import android.util.Log
+import android.view.View
+import android.widget.Button
 import androidx.annotation.NonNull
 import androidx.lifecycle.*
 import com.google.android.exoplayer2.MediaItem
@@ -26,6 +29,7 @@ class VideoViewModel(application: Application)
     private val _player = MutableLiveData<Player?>()
     private val _error = MutableLiveData<String>()
     private var _playlist = mutableListOf<String>()
+    private var _lastPlayedBtn: Button? = null
 
     val player: LiveData<Player?> get() = _player
     val error: LiveData<String> get() = _error
@@ -43,12 +47,6 @@ class VideoViewModel(application: Application)
         this._error.value = "${error.cause!!.message} ${error.message}"
     }
 
-    fun setPlaylistIfNotSet(playlist: MutableList<String>) {
-        if (_playlist.size == 0) {
-            setPlaylist(playlist)
-        }
-    }
-
     fun setPlaylist(playlist: MutableList<String>) {
         this._playlist = playlist
         setUpPlayer()
@@ -64,12 +62,20 @@ class VideoViewModel(application: Application)
         releaseExoPlayer()
     }
 
-    fun setEpisode(position: Int) {
+    fun setEpisode(stage: View, view: Button, position: Int) {
         _player.value!!.seekTo(position, 0L)
+
+        if (_lastPlayedBtn == null) {
+            _lastPlayedBtn = stage.findViewWithTag("episode_btn_1")
+        }
+
+        _lastPlayedBtn!!.setTextColor(Color.WHITE)
+        _lastPlayedBtn = view
+
+        view.setTextColor(Color.RED)
     }
 
-    fun setUpPlayer() {
-
+    private fun setUpPlayer() {
         val application = getApplication<Application>()
         val trackSelector = DefaultTrackSelector(application).apply {
             setParameters(buildUponParameters().setMaxVideoSizeSd())
