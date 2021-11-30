@@ -17,7 +17,9 @@ import androidx.lifecycle.*
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.PlaybackException
 import com.google.android.exoplayer2.Player
+import com.google.android.exoplayer2.source.DefaultMediaSourceFactory
 import com.google.android.exoplayer2.source.MediaSource
+import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.MimeTypes
 import com.google.android.exoplayer2.util.Util
@@ -95,12 +97,12 @@ class VideoViewModel(application: Application)
                         .setUri(
                             Uri.parse(video)
                         )
-                        .setMimeType(MimeTypes.APPLICATION_M3U8)
+                        .setMimeType(MimeTypes.APPLICATION_MP4)
                         .build()
                     val dataSourceFactory = DefaultHttpDataSource.Factory()
                     val userAgent = WebView(application).settings.userAgentString
                     dataSourceFactory.setUserAgent(userAgent)
-                    val source = HlsMediaSource.Factory(dataSourceFactory).createMediaSource(mediaItem)
+                    val source = ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(mediaItem)
                     exoPlayer.addMediaSource(source)
                 }
 
