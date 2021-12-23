@@ -86,6 +86,8 @@ class SearchFragment : Fragment(), GridAdapter.OnClickListener, SearchAdapter.On
                     search_result.addAll(result.body()?.data?.documents!!)
                     searchRV.adapter = searchResultAdapter
                 }
+            } else {
+                Toast.makeText(context, result.message(), Toast.LENGTH_SHORT).show()
             }
         })
 

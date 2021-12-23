@@ -67,6 +67,7 @@ class VideoViewModel(application: Application)
     fun setEpisode(stage: View, view: Button, position: Int) {
         _player.value!!.seekTo(position, 0L)
 
+// this is to color the button that is selected
         if (_lastPlayedBtn == null) {
             _lastPlayedBtn = stage.findViewWithTag("episode_btn_1")
         }
