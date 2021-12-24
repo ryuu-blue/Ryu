@@ -50,15 +50,12 @@ import com.google.android.exoplayer2.util.MimeTypes
 import kotlinx.android.synthetic.main.activity_video.*
 import android.widget.Toast
 
-import org.jetbrains.annotations.NotNull
-
-
 
 
 open class VideoActivity : AppCompatActivity(), EpisodeAdapter.OnClickListener {
 
     private lateinit var viewModel: MainViewModel
-
+    private lateinit var exo_text: TextView
     lateinit var videoViewModel: VideoViewModel
 
     var episode = emptyList<EpisodeDocument>()
@@ -73,6 +70,7 @@ open class VideoActivity : AppCompatActivity(), EpisodeAdapter.OnClickListener {
         val anime_id = bundle?.getString("id")
         val banner = bundle?.getString("banner")
 
+        exo_text = findViewById(R.id.exo_text)
         val setBanner: ImageView = findViewById(R.id.IVbanner)
         val setDev: TextView = findViewById(R.id.dev)
         val dropDownButton: Spinner = findViewById(R.id.episodePage)
@@ -87,6 +85,10 @@ open class VideoActivity : AppCompatActivity(), EpisodeAdapter.OnClickListener {
         videoViewModel.error.observe(this, Observer {
             playerErrorView.text = it
             playerErrorView.visibility = View.VISIBLE
+        })
+        videoViewModel.currentMediaItem.observe(this, Observer {
+            exo_text.text = "Episode :: ${it.mediaMetadata.trackNumber}"
+
         })
 
         val repo = Repository()
@@ -147,15 +149,10 @@ open class VideoActivity : AppCompatActivity(), EpisodeAdapter.OnClickListener {
                 }
 
                 //adding content to media list
-                episodePlaylist.clear()
-
-                for (i in episode) {
-                    episodePlaylist.add(i.video)
-                }
 
                 Log.v("MSS", "WE ARE READY!")
                 //stage.adapter.getFirstItem()!!.setBackgroundColor(Color.CYAN)
-                videoViewModel.setPlaylist(episodePlaylist)
+                videoViewModel.setPlaylist(episode, currentPage)
 
 
             } else {
@@ -187,8 +184,7 @@ open class VideoActivity : AppCompatActivity(), EpisodeAdapter.OnClickListener {
                 position: Int,
                 id: Long
             ) {
-
-                Toast.makeText(this@VideoActivity, "${position + 1}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@VideoActivity, "Part - ${position + 1}", Toast.LENGTH_SHORT).show()
                 viewModel.getEpisode(number = anime_id!!.toInt(), current_page = position + 1)
             }
 
@@ -248,6 +244,7 @@ open class VideoActivity : AppCompatActivity(), EpisodeAdapter.OnClickListener {
     }
 
     override fun OnClick(view: View, position: Int) {
+        exo_text.text = "Episode :: ${episode[position].number}"
         Toast.makeText(this, "episode -> "+episode[position].number, Toast.LENGTH_SHORT).show()
         videoViewModel.setEpisode(rvEpisodes, view as Button, position)
     }

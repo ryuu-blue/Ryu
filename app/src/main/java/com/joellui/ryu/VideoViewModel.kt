@@ -1,7 +1,6 @@
 package com.joellui.ryu
 
 import android.webkit.WebView
-import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.source.hls.HlsMediaSource
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSource
@@ -14,27 +13,31 @@ import android.view.View
 import android.widget.Button
 import androidx.annotation.NonNull
 import androidx.lifecycle.*
-import com.google.android.exoplayer2.MediaItem
-import com.google.android.exoplayer2.PlaybackException
-import com.google.android.exoplayer2.Player
+import com.google.android.exoplayer2.*
 import com.google.android.exoplayer2.source.DefaultMediaSourceFactory
 import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
+import com.google.android.exoplayer2.source.TrackGroupArray
+import com.google.android.exoplayer2.trackselection.TrackSelectionArray
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.MimeTypes
 import com.google.android.exoplayer2.util.Util
+import com.joellui.ryu.model.EpisodeDocument
 
-class VideoViewModel(application: Application)
-    : AndroidViewModel(application)
-    , LifecycleObserver, Player.Listener {
+class VideoViewModel(application: Application) : AndroidViewModel(application), LifecycleObserver,
+    Player.Listener {
 
     private val _player = MutableLiveData<Player?>()
     private val _error = MutableLiveData<String>()
-    private var _playlist = mutableListOf<String>()
+    private val _currentMediaItem = MutableLiveData<MediaItem>()
+    private var _playlist: List<EpisodeDocument> = listOf()
     private var _lastPlayedBtn: Button? = null
 
     val player: LiveData<Player?> get() = _player
     val error: LiveData<String> get() = _error
+    val currentMediaItem: LiveData<MediaItem> get() = _currentMediaItem
+
+    private var _currentPart = -1
     private var contentPosition = 0L
     private var playWhenReady = true
 
@@ -49,7 +52,8 @@ class VideoViewModel(application: Application)
         this._error.value = "${error.cause!!.message} ${error.message}"
     }
 
-    fun setPlaylist(playlist: MutableList<String>) {
+    fun setPlaylist(playlist: List<EpisodeDocument>, partNumber: Int) {
+        this._currentPart = partNumber
         this._playlist = playlist
         setUpPlayer()
     }
@@ -62,6 +66,28 @@ class VideoViewModel(application: Application)
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     fun onBackgrounded() {
         releaseExoPlayer()
+    }
+
+    override fun onPlaybackStateChanged(playbackState: Int) {
+        when (playbackState) {
+            Player.STATE_IDLE -> {
+                Log.d("VideoViewModel", "onPlayerStateChanged: STATE_IDLE")
+            }
+            Player.STATE_BUFFERING -> {
+                Log.d("VideoViewModel", "onPlayerStateChanged: STATE_BUFFERING")
+
+                Log.d("VideoViewModel", _player.value?.currentMediaItem.toString())
+
+            }
+            Player.STATE_READY -> {
+                Log.d("VideoViewModel", "onPlayerStateChanged: STATE_READY")
+                Log.d("VideoViewModel", _player.value?.currentMediaItem!!.mediaMetadata.trackNumber.toString())
+                this._currentMediaItem.value = _player.value?.currentMediaItem
+            }
+            Player.STATE_ENDED -> {
+                Log.d("VideoViewModel", "onPlayerStateChanged: STATE_ENDED")
+            }
+        }
     }
 
     fun setEpisode(stage: View, view: Button, position: Int) {
@@ -93,17 +119,28 @@ class VideoViewModel(application: Application)
                 //Log.v("MSS", "DEMO -> $demoVideo")
                 //Log.v("MSS", "Playing -> ${_playlist}")
                 //Log.v("MSS", "Video is same as demo ? -> ${demoVideo.equals(_playlist[0])}")
-                for (video in _playlist) {
+                for (e in _playlist) {
+                    var metadata = MediaMetadata.Builder()
+                        .setTitle(e.title)
+                        .setTrackNumber(e.number)
+                        .setDiscNumber(_currentPart)
+                        .build()
+
                     var mediaItem = MediaItem.Builder()
                         .setUri(
-                            Uri.parse(video)
+                            Uri.parse(e.video)
                         )
                         .setMimeType(MimeTypes.APPLICATION_MP4)
+                        .setMediaId(e.id.toString())
+                        .setMediaMetadata(metadata)
                         .build()
+
                     val dataSourceFactory = DefaultHttpDataSource.Factory()
                     val userAgent = WebView(application).settings.userAgentString
                     dataSourceFactory.setUserAgent(userAgent)
-                    val source = ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(mediaItem)
+                    val source = ProgressiveMediaSource.Factory(dataSourceFactory)
+                        .createMediaSource(mediaItem)
+
                     exoPlayer.addMediaSource(source)
                 }
 
@@ -111,10 +148,10 @@ class VideoViewModel(application: Application)
                 exoPlayer.prepare()
             }
 
-            player.playWhenReady = playWhenReady
-            player.seekTo(contentPosition)
+        player.playWhenReady = playWhenReady
+        player.seekTo(contentPosition)
 
-            this._player.value = player
+        this._player.value = player
     }
 
     private fun releaseExoPlayer() {
