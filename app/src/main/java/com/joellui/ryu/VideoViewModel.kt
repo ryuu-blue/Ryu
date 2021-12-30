@@ -29,13 +29,12 @@ class VideoViewModel(application: Application) : AndroidViewModel(application), 
 
     private val _player = MutableLiveData<Player?>()
     private val _error = MutableLiveData<String>()
-    private val _currentMediaItem = MutableLiveData<MediaItem>()
+    private val _currentEpisode = MutableLiveData<Int>()
     private var _playlist: List<EpisodeDocument> = listOf()
-    private var _lastPlayedBtn: Button? = null
 
     val player: LiveData<Player?> get() = _player
     val error: LiveData<String> get() = _error
-    val currentMediaItem: LiveData<MediaItem> get() = _currentMediaItem
+    val currentEpisode: LiveData<Int> get() = _currentEpisode
 
     private var _currentPart = -1
     private var contentPosition = 0L
@@ -55,7 +54,16 @@ class VideoViewModel(application: Application) : AndroidViewModel(application), 
     fun setPlaylist(playlist: List<EpisodeDocument>, partNumber: Int) {
         this._currentPart = partNumber
         this._playlist = playlist
+
         setUpPlayer()
+    }
+
+    override fun onTracksChanged(
+        trackGroups: TrackGroupArray,
+        trackSelections: TrackSelectionArray
+    ) {
+        val currentIndex = _player.value!!.currentMediaItem!!.mediaMetadata.trackNumber
+        this._currentEpisode.value = currentIndex
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
@@ -68,40 +76,8 @@ class VideoViewModel(application: Application) : AndroidViewModel(application), 
         releaseExoPlayer()
     }
 
-    override fun onPlaybackStateChanged(playbackState: Int) {
-        when (playbackState) {
-            Player.STATE_IDLE -> {
-                Log.d("VideoViewModel", "onPlayerStateChanged: STATE_IDLE")
-            }
-            Player.STATE_BUFFERING -> {
-                Log.d("VideoViewModel", "onPlayerStateChanged: STATE_BUFFERING")
-
-                Log.d("VideoViewModel", _player.value?.currentMediaItem.toString())
-
-            }
-            Player.STATE_READY -> {
-                Log.d("VideoViewModel", "onPlayerStateChanged: STATE_READY")
-                Log.d("VideoViewModel", _player.value?.currentMediaItem!!.mediaMetadata.trackNumber.toString())
-                this._currentMediaItem.value = _player.value?.currentMediaItem
-            }
-            Player.STATE_ENDED -> {
-                Log.d("VideoViewModel", "onPlayerStateChanged: STATE_ENDED")
-            }
-        }
-    }
-
-    fun setEpisode(stage: View, view: Button, position: Int) {
+    fun setEpisode(position: Int) {
         _player.value!!.seekTo(position, 0L)
-
-// this is to color the button that is selected
-        if (_lastPlayedBtn == null) {
-            _lastPlayedBtn = stage.findViewWithTag("episode_btn_1")
-        }
-
-        _lastPlayedBtn!!.setTextColor(Color.WHITE)
-        _lastPlayedBtn = view
-
-        view.setTextColor(Color.RED)
     }
 
     private fun setUpPlayer() {

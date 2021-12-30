@@ -57,6 +57,7 @@ open class VideoActivity : AppCompatActivity(), EpisodeAdapter.OnClickListener {
     private lateinit var viewModel: MainViewModel
     private lateinit var exo_text: TextView
     lateinit var videoViewModel: VideoViewModel
+    private var _lastPlayedBtn: Button? = null
 
     var episode = emptyList<EpisodeDocument>()
     var episodePlaylist = mutableListOf<String>()
@@ -86,9 +87,19 @@ open class VideoActivity : AppCompatActivity(), EpisodeAdapter.OnClickListener {
             playerErrorView.text = it
             playerErrorView.visibility = View.VISIBLE
         })
-        videoViewModel.currentMediaItem.observe(this, Observer {
-            exo_text.text = "Episode :: ${it.mediaMetadata.trackNumber}"
+        videoViewModel.currentEpisode.observe(this, Observer {
+            // When new episode is played
+            exo_text.text = "Episode :: $it"
+            val currentBtn = stage.findViewWithTag<Button>("episode_btn_$it")
 
+            if (_lastPlayedBtn != null) {
+                _lastPlayedBtn!!.setTextColor(Color.WHITE)
+            }
+
+            _lastPlayedBtn = currentBtn
+            if (currentBtn != null) {
+                currentBtn!!.setTextColor(Color.RED)
+            }
         })
 
         val repo = Repository()
@@ -244,9 +255,8 @@ open class VideoActivity : AppCompatActivity(), EpisodeAdapter.OnClickListener {
     }
 
     override fun OnClick(view: View, position: Int) {
-        exo_text.text = "Episode :: ${episode[position].number}"
         Toast.makeText(this, "episode -> "+episode[position].number, Toast.LENGTH_SHORT).show()
-        videoViewModel.setEpisode(rvEpisodes, view as Button, position)
+        videoViewModel.setEpisode(position)
     }
 
     override fun onBackPressed() {

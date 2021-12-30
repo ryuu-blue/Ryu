@@ -14,7 +14,7 @@ class Repository {
 
     suspend fun getEpisode(
         number: Int,
-        src: String = "gogoanime",
+        src: String,
         local: String,
         current_page: Int
     ): Response<EpisodePost> {

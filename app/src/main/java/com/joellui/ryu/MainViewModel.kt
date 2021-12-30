@@ -35,8 +35,8 @@ class MainViewModel(private val repository: Repository) : ViewModel() {
 
     fun getEpisode(
         number: Int,
-        src: String = "gogoanime",
-        local: String = "en",
+        src: String = "dreamsub",
+        local: String = "it",
         current_page: Int = 1
     ) {
         viewModelScope.launch {
