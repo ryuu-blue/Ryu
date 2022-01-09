@@ -32,8 +32,13 @@ interface Aniapi {
 
     @GET("v1/anime")
     suspend fun getSearchAnime(
-        @Query("title") title: String,
-        @Query("nsfw") nsfw: Boolean = false,
+        @Query("title") title: String? = null,
+        @Query("nsfw") nsfw: Boolean? = false,
+        @Query("formats") formats: String? = null,
+        @Query("status") status: String? = null,
+        @Query("per_page") per_page: Int? = null,
+        @Query("sort_fields") sort_fields: String? = null,
+        @Query("sort_directions") sort_directions: Int? = null,
     ): Response<SearchPost>
 
 }

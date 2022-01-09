@@ -2,6 +2,7 @@ package com.joellui.ryu.repositry
 
 import com.joellui.ryu.model.*
 import retrofit2.Response
+import retrofit2.http.Query
 
 class Repository {
     suspend fun getPost(number: Int): Response<AnimePost> {
@@ -22,9 +23,14 @@ class Repository {
     }
 
     suspend fun getSearchAnime(
-        title: String,
-        nsfw: Boolean,
-    ): Response<SearchPost> {
-        return  RetrofitInstance.api.getSearchAnime(title,nsfw)
+        title: String? = null,
+        nsfw: Boolean? = false,
+        formats: String? = null,
+        status: String? = null,
+        per_page: Int? = null,
+        sort_fields: String? = null,
+        sort_directions: Int? = null,
+        ): Response<SearchPost> {
+        return  RetrofitInstance.api.getSearchAnime(title,nsfw,formats,status,per_page,sort_fields,sort_directions)
     }
 }

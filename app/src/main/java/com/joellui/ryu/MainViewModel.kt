@@ -46,11 +46,16 @@ class MainViewModel(private val repository: Repository) : ViewModel() {
     }
 
     fun getSearchAnime(
-        title: String,
-        nsfw: Boolean = false
+        title: String? = null,
+        nsfw: Boolean? = false,
+        status: String? = null,
+        formats: String? = null,
+        per_page: Int? = null,
+        sort_fields: String? = null,
+        sort_directions: Int? = null,
     ){
         viewModelScope.launch {
-            val response = repository.getSearchAnime(title, nsfw)
+            val response = repository.getSearchAnime(title,nsfw,formats,status,per_page,sort_fields,sort_directions)
             searchResponse.value = response
         }
     }

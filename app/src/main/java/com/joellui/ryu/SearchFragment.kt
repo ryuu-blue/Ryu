@@ -25,6 +25,7 @@ class SearchFragment : Fragment(), GridAdapter.OnClickListener, SearchAdapter.On
     private lateinit var viewModel: MainViewModel
 
     var search_result = mutableListOf<AnimeData>()
+    //test
     var cover = mutableListOf<CoverData>(
         CoverData(
             "One Piece",
