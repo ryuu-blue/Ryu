@@ -14,55 +14,251 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/appIcon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:src="@mipmap/ic_launcher_round"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
 
-
-    <ImageView
-        android:id="@+id/aniapi"
-        android:layout_width="wrap_content"
+    <com.google.android.flexbox.FlexboxLayout
+        android:id="@+id/flexbox_container"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:padding="10dp"
-        android:scaleX="0.85"
-        android:scaleY="0.85"
-        android:scaleType="center"
-        android:src="@mipmap/ic_aniapi_round"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appIcon" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Aniapi.com"
-        android:textSize="18sp"
-        app:layout_constraintTop_toTopOf="@id/aniapi"
-        app:layout_constraintBottom_toBottomOf="@id/aniapi"
-        app:layout_constraintStart_toEndOf="@id/aniapi"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_margin="20dp"
-        android:textSize="20sp"
-        android:text="Ryu is an anime project for streaming anime. If you like the project pls support."
-        android:padding="20dp"
-        android:layout_height="wrap_content"
+        app:flexWrap="wrap"
+        app:justifyContent="space_around"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/aniapi"/>
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:layout_width="wrap_content"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/ryu_main"
+            android:layout_width="190dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#CA1414"
+            android:layout_margin="10dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="5dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <ImageView
+                    android:id="@+id/logo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/ic_launcher_round"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="@string/app_name"
+                    android:textSize="27dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/logo"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.1"
+                    app:layout_constraintStart_toEndOf="@+id/logo"
+                    app:layout_constraintTop_toTopOf="@+id/logo" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="The application is only for watching anime"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/logo" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/aniapi_main"
+            android:layout_width="181dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#703a93"
+            android:clickable="true"
+            android:focusable="true"
+            app:cardCornerRadius="10dp"
+            android:layout_margin="10dp"
+            app:cardElevation="5dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <ImageView
+                    android:id="@+id/aniapi_logo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/ic_aniapi_round"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/aniapi_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="Aniapi"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/aniapi_logo"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.1"
+                    app:layout_constraintStart_toEndOf="@+id/aniapi_logo"
+                    app:layout_constraintTop_toTopOf="@+id/aniapi_logo" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="This application was only made because of this API"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/aniapi_logo" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/support_main"
+            android:layout_width="190dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#FFDD00"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_margin="10dp"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="5dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <ImageView
+                    android:id="@+id/donation_logo"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_donation"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/donation_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="Support"
+                    android:textColor="@color/black"
+                    android:textSize="27dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/donation_logo"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.1"
+                    app:layout_constraintStart_toEndOf="@+id/donation_logo"
+                    app:layout_constraintTop_toTopOf="@+id/donation_logo" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:textColor="@color/black"
+                    android:text="Support this project and the project will get a regular update "
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/donation_logo" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/discord_main"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#FFFFFF"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_margin="10dp"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="5dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <ImageView
+                    android:id="@+id/discord_logo"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_discord"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/discord_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="Discord"
+                    android:textColor="@color/black"
+                    android:textSize="27dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/discord_logo"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.1"
+                    app:layout_constraintStart_toEndOf="@+id/discord_logo"
+                    app:layout_constraintTop_toTopOf="@+id/discord_logo" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:textColor="@color/black"
+                    android:text="Join us on discord for more communication about the Application."
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/discord_logo" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+        </androidx.cardview.widget.CardView>
+
+
+    </com.google.android.flexbox.FlexboxLayout>
+
+    <ImageView
+        android:id="@+id/gif"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="JOELLUI"
-        android:textSize="50sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/flexbox_container"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

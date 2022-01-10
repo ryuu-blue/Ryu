@@ -71,6 +71,7 @@ dependencies {
 
     //URL
     implementation("io.coil-kt:coil:1.4.0")
+    implementation("io.coil-kt:coil-gif:1.4.0")
 
     implementation 'com.google.android.flexbox:flexbox:3.0.0'
 
