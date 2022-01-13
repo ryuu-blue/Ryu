@@ -93,7 +93,7 @@ class MainFragment : Fragment(), BannerAdapter.OnClickListener, ListAdapter.OnCl
         })
 
         if (bannerlist.size < 5) {
-            viewModel.getRandomAnime(5)
+            viewModel.getRandomAnime(5,false)
         }
 
         if (coverlist.isEmpty()){

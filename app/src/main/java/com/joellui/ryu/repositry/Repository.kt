@@ -9,8 +9,11 @@ class Repository {
         return RetrofitInstance.api.getPost(number)
     }
 
-    suspend fun getRandomAnime(count: Int): Response<RandomAnimePost>{
-        return RetrofitInstance.api.getRandomAnime(count)
+    suspend fun getRandomAnime(
+        count: Int,
+        nsfw: Boolean = false
+    ): Response<RandomAnimePost>{
+        return RetrofitInstance.api.getRandomAnime(count,nsfw)
     }
 
     suspend fun getEpisode(

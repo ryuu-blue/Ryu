@@ -25,9 +25,10 @@ interface Aniapi {
         @Query("page") current_page: Int = 1
     ): Response<EpisodePost>
 
-    @GET("/v1/random/anime/{count}")
+    @GET("/v1/random/anime/{count}/{nsfw}")
     suspend fun getRandomAnime(
-        @Path("count") number: Int = 9
+        @Path("count") number: Int = 9,
+        @Path("nsfw") boolean: Boolean = false
     ): Response<RandomAnimePost>
 
     @GET("v1/anime")
