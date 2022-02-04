@@ -33,11 +33,59 @@
                 android:textSize="18sp"
                 android:textStyle="bold"/>
 
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_topAnime"
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                tools:itemCount="5"
+                android:orientation="horizontal" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <FrameLayout
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:background="#794F20B8"
+                    android:layout_height="0dp"
+                    android:layout_width="0dp">
+
+                    <View
+                        app:layout_constraintBottom_toBottomOf="@id/rv_seasonPeriod"
+                        android:layout_width="match_parent"
+                        android:background="@drawable/gradient_black"
+                        android:layout_height="match_parent"/>
+
+                </FrameLayout>
+
+                <TextView
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:id="@+id/tv_seasonPeriod"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Season"
+                    android:textStyle="bold"
+                    android:padding="10dp"
+                    android:textSize="21sp"
+                    android:textAlignment="center"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_seasonPeriod"
+                    app:layout_constraintTop_toBottomOf="@id/tv_seasonPeriod"
+                    android:layout_width="match_parent"
+                    tools:itemCount="5"
+                    android:layout_height="wrap_content"/>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
         </LinearLayout>
     </ScrollView>

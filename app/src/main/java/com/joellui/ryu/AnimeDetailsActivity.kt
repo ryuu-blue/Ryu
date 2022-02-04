@@ -243,5 +243,9 @@ class AnimeDetailsActivity : AppCompatActivity() {
         finish()
     }
 
+    fun Likebtn(view: android.view.View) {
+        Toast.makeText(this, "Default", Toast.LENGTH_SHORT).show()
+    }
+
 
 }

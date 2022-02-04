@@ -17,6 +17,7 @@ class MainViewModel(private val repository: Repository) : ViewModel() {
     val episodeResponse: MutableLiveData<Response<EpisodePost>> = MutableLiveData()
     val randomResponse: MutableLiveData<Response<RandomAnimePost>> = MutableLiveData()
     val searchResponse: MutableLiveData<Response<SearchPost>> = MutableLiveData()
+    val searchResponse2: MutableLiveData<Response<SearchPost>> = MutableLiveData()
 
     fun getPost(number: Int) {
         viewModelScope.launch {
@@ -51,12 +52,19 @@ class MainViewModel(private val repository: Repository) : ViewModel() {
         status: String? = null,
         formats: String? = null,
         per_page: Int? = null,
+        season: Int? = null,
         sort_fields: String? = null,
         sort_directions: Int? = null,
+        result_response_1: Boolean = true
     ){
         viewModelScope.launch {
-            val response = repository.getSearchAnime(title,nsfw,formats,status,per_page,sort_fields,sort_directions)
-            searchResponse.value = response
+            val response = repository.getSearchAnime(title,nsfw,formats,status,per_page,season ,sort_fields,sort_directions)
+
+            if (result_response_1) {
+                searchResponse.value = response
+            } else {
+                searchResponse2.value = response
+            }
         }
     }
 

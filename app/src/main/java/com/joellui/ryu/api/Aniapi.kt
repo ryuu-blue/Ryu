@@ -20,8 +20,8 @@ interface Aniapi {
     @GET("/v1/episode")
     suspend fun getEpisode(
         @Query("anime_id") number: Int,
-        @Query("source") src: String = "dreamsub",
-        @Query("locale") locale: String = "it",
+        @Query("source") src: String = "gogoanime",
+        @Query("locale") locale: String = "en",
         @Query("page") current_page: Int = 1
     ): Response<EpisodePost>
 
@@ -38,6 +38,7 @@ interface Aniapi {
         @Query("formats") formats: String? = null,
         @Query("status") status: String? = null,
         @Query("per_page") per_page: Int? = null,
+        @Query("season") season: Int? = null,
         @Query("sort_fields") sort_fields: String? = null,
         @Query("sort_directions") sort_directions: Int? = null,
     ): Response<SearchPost>

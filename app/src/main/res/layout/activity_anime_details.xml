@@ -38,6 +38,18 @@
 
         </FrameLayout>
 
+        <ToggleButton
+            android:padding="10dp"
+            android:onClick="Likebtn"
+            android:layout_margin="10dp"
+            android:textOn=""
+            android:textOff=""
+            android:background="@drawable/fav_btn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"/>
+
 
         <ImageButton
             android:id="@+id/btnPlay"

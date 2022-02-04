@@ -31,9 +31,10 @@ class Repository {
         formats: String? = null,
         status: String? = null,
         per_page: Int? = null,
+        season: Int? = null,
         sort_fields: String? = null,
         sort_directions: Int? = null,
         ): Response<SearchPost> {
-        return  RetrofitInstance.api.getSearchAnime(title,nsfw,formats,status,per_page,sort_fields,sort_directions)
+        return  RetrofitInstance.api.getSearchAnime(title,nsfw,formats,status,per_page, season,sort_fields,sort_directions)
     }
 }
