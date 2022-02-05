@@ -227,7 +227,8 @@ class AnimeDetailsActivity : AppCompatActivity() {
             intent.putExtra("id", id.toString())
             intent.putExtra("title", title)
             intent.putExtra("image", cover)
-            startActivity(intent) }
+            startActivity(intent)
+        }
 
         if (isPreseq) {
             LL.addView(viewpre)
